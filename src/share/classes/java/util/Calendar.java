@@ -1,26 +1,26 @@
 /*
  * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 /*
@@ -2083,33 +2083,17 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
             return null;
         }
 
-        String calendarType = getCalendarType();
-        int fieldValue = get(field);
         // the standalone and narrow styles are supported only through CalendarDataProviders.
-        if (isStandaloneStyle(style) || isNarrowFormatStyle(style)) {
-            String val = CalendarDataUtility.retrieveFieldValueName(calendarType,
-                                                                    field, fieldValue,
-                                                                    style, locale);
-            // Perform fallback here to follow the CLDR rules
-            if (val == null) {
-                if (isNarrowFormatStyle(style)) {
-                    val = CalendarDataUtility.retrieveFieldValueName(calendarType,
-                                                                     field, fieldValue,
-                                                                     toStandaloneStyle(style),
-                                                                     locale);
-                } else if (isStandaloneStyle(style)) {
-                    val = CalendarDataUtility.retrieveFieldValueName(calendarType,
-                                                                     field, fieldValue,
-                                                                     getBaseStyle(style),
-                                                                     locale);
-                }
-            }
-            return val;
+        if (isStandaloneStyle(style) || isNarrowStyle(style)) {
+            return CalendarDataUtility.retrieveFieldValueName(getCalendarType(),
+                                                              field, get(field),
+                                                              style, locale);
         }
 
         DateFormatSymbols symbols = DateFormatSymbols.getInstance(locale);
         String[] strings = getFieldStrings(field, style, symbols);
         if (strings != null) {
+            int fieldValue = get(field);
             if (fieldValue < strings.length) {
                 return strings[fieldValue];
             }
@@ -2171,26 +2155,10 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
                                     ERA_MASK|MONTH_MASK|DAY_OF_WEEK_MASK|AM_PM_MASK)) {
             return null;
         }
-
-        String calendarType = getCalendarType();
-        if (style == ALL_STYLES || isStandaloneStyle(style) || isNarrowFormatStyle(style)) {
-            Map<String, Integer> map;
-            map = CalendarDataUtility.retrieveFieldValueNames(calendarType, field, style, locale);
-
-            // Perform fallback here to follow the CLDR rules
-            if (map == null) {
-                if (isNarrowFormatStyle(style)) {
-                    map = CalendarDataUtility.retrieveFieldValueNames(calendarType, field,
-                                                                      toStandaloneStyle(style), locale);
-                } else if (style != ALL_STYLES) {
-                    map = CalendarDataUtility.retrieveFieldValueNames(calendarType, field,
-                                                                      getBaseStyle(style), locale);
-                }
-            }
-            return map;
+        if (style == ALL_STYLES || isStandaloneStyle(style)) {
+            return CalendarDataUtility.retrieveFieldValueNames(getCalendarType(), field, style, locale);
         }
-
-        // SHORT or LONG
+        // SHORT, LONG, or NARROW
         return getDisplayNamesImpl(field, style, locale);
     }
 
@@ -2576,20 +2544,12 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
         return style & ~STANDALONE_MASK;
     }
 
-    private int toStandaloneStyle(int style) {
-        return style | STANDALONE_MASK;
-    }
-
-    private boolean isStandaloneStyle(int style) {
+    boolean isStandaloneStyle(int style) {
         return (style & STANDALONE_MASK) != 0;
     }
 
-    private boolean isNarrowStyle(int style) {
+    boolean isNarrowStyle(int style) {
         return style == NARROW_FORMAT || style == NARROW_STANDALONE;
-    }
-
-    private boolean isNarrowFormatStyle(int style) {
-        return style == NARROW_FORMAT;
     }
 
     /**

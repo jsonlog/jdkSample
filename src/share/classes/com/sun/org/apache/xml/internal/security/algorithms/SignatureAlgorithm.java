@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -387,12 +387,7 @@ public class SignatureAlgorithm extends Algorithm {
      * This method registers the default algorithms.
      */
     public static void registerDefaultAlgorithms() {
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_DSA, SignatureDSA.class
-        );
-        algorithmHash.put(
-            XMLSignature.ALGO_ID_SIGNATURE_DSA_SHA256, SignatureDSA.SHA256.class
-        );
+        algorithmHash.put(SignatureDSA.URI, SignatureDSA.class);
         algorithmHash.put(
             XMLSignature.ALGO_ID_SIGNATURE_RSA_SHA1, SignatureBaseRSA.SignatureRSASHA1.class
         );

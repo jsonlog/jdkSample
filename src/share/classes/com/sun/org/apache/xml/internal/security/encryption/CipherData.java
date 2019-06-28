@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,14 +23,14 @@
 package com.sun.org.apache.xml.internal.security.encryption;
 
 /**
- * {@code CipherData} provides encrypted data. It must either contain the
+ * <code>CipherData</code> provides encrypted data. It must either contain the
  * encrypted octet sequence as base64 encoded text of the
- * {@code CipherValue} element, or provide a reference to an external
+ * <code>CipherValue</code> element, or provide a reference to an external
  * location containing the encrypted octet sequence via the
- * {@code CipherReference} element.
+ * <code>CipherReference</code> element.
  * <p>
  * The schema definition is as follows:
- * <pre>{@code
+ * <xmp>
  * <element name='CipherData' type='xenc:CipherDataType'/>
  * <complexType name='CipherDataType'>
  *     <choice>
@@ -38,7 +38,7 @@ package com.sun.org.apache.xml.internal.security.encryption;
  *         <element ref='xenc:CipherReference'/>
  *     </choice>
  * </complexType>
- * }</pre>
+ * </xmp>
  *
  * @author Axl Mattheus
  */
@@ -52,32 +52,32 @@ public interface CipherData {
 
     /**
      * Returns the type of encrypted data contained in the
-     * {@code CipherData}.
+     * <code>CipherData</code>.
      *
-     * @return {@code VALUE_TYPE} if the encrypted data is contained as
-     *   {@code CipherValue} or {@code REFERENCE_TYPE} if the
-     *   encrypted data is contained as {@code CipherReference}.
+     * @return <code>VALUE_TYPE</code> if the encrypted data is contained as
+     *   <code>CipherValue</code> or <code>REFERENCE_TYPE</code> if the
+     *   encrypted data is contained as <code>CipherReference</code>.
      */
     int getDataType();
 
     /**
-     * Returns the cipher value as a base64 encoded {@code byte} array.
+     * Returns the cipher value as a base64 encoded <code>byte</code> array.
      *
-     * @return the {@code CipherData}'s value.
+     * @return the <code>CipherData</code>'s value.
      */
     CipherValue getCipherValue();
 
     /**
-     * Sets the {@code CipherData}'s value.
+     * Sets the <code>CipherData</code>'s value.
      *
-     * @param value the value of the {@code CipherData}.
+     * @param value the value of the <code>CipherData</code>.
      * @throws XMLEncryptionException
      */
     void setCipherValue(CipherValue value) throws XMLEncryptionException;
 
     /**
      * Returns a reference to an external location containing the encrypted
-     * octet sequence ({@code byte} array).
+     * octet sequence (<code>byte</code> array).
      *
      * @return the reference to an external location containing the encrypted
      * octet sequence.
@@ -85,7 +85,7 @@ public interface CipherData {
     CipherReference getCipherReference();
 
     /**
-     * Sets the {@code CipherData}'s reference.
+     * Sets the <code>CipherData</code>'s reference.
      *
      * @param reference an external location containing the encrypted octet sequence.
      * @throws XMLEncryptionException

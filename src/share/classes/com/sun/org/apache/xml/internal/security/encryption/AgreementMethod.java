@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -31,38 +31,38 @@ import org.w3c.dom.Element;
  * based on a shared secret computed from certain types of compatible public
  * keys from both the sender and the recipient. Information from the originator
  * to determine the secret is indicated by an optional OriginatorKeyInfo
- * parameter child of an {@code AgreementMethod} element while that
+ * parameter child of an <code>AgreementMethod</code> element while that
  * associated with the recipient is indicated by an optional RecipientKeyInfo. A
  * shared key is derived from this shared secret by a method determined by the
  * Key Agreement algorithm.
  * <p>
  * <b>Note:</b> XML Encryption does not provide an on-line key agreement
- * negotiation protocol. The {@code AgreementMethod} element can be used by
+ * negotiation protocol. The <code>AgreementMethod</code> element can be used by
  * the originator to identify the keys and computational procedure that were
  * used to obtain a shared encryption key. The method used to obtain or select
  * the keys or algorithm used for the agreement computation is beyond the scope
  * of this specification.
  * <p>
- * The {@code AgreementMethod} element appears as the content of a
- * {@code ds:KeyInfo} since, like other {@code ds:KeyInfo} children,
- * it yields a key. This {@code ds:KeyInfo} is in turn a child of an
- * {@code EncryptedData} or {@code EncryptedKey} element. The
- * Algorithm attribute and KeySize child of the {@code EncryptionMethod}
- * element under this {@code EncryptedData} or {@code EncryptedKey}
+ * The <code>AgreementMethod</code> element appears as the content of a
+ * <code>ds:KeyInfo</code> since, like other <code>ds:KeyInfo</code> children,
+ * it yields a key. This <code>ds:KeyInfo</code> is in turn a child of an
+ * <code>EncryptedData</code> or <code>EncryptedKey</code> element. The
+ * Algorithm attribute and KeySize child of the <code>EncryptionMethod</code>
+ * element under this <code>EncryptedData</code> or <code>EncryptedKey</code>
  * element are implicit parameters to the key agreement computation. In cases
- * where this {@code EncryptionMethod} algorithm {@code URI} is
+ * where this <code>EncryptionMethod</code> algorithm <code>URI</code> is
  * insufficient to determine the key length, a KeySize MUST have been included.
  * In addition, the sender may place a KA-Nonce element under
- * {@code AgreementMethod} to assure that different keying material is
+ * <code>AgreementMethod</code> to assure that different keying material is
  * generated even for repeated agreements using the same sender and recipient
  * public keys.
  * <p>
  * If the agreed key is being used to wrap a key, then
- * {@code AgreementMethod} would appear inside a {@code ds:KeyInfo}
- * inside an {@code EncryptedKey} element.
+ * <code>AgreementMethod</code> would appear inside a <code>ds:KeyInfo</code>
+ * inside an <code>EncryptedKey</code> element.
  * <p>
  * The Schema for AgreementMethod is as follows:
- * <pre>{@code
+ * <xmp>
  * <element name="AgreementMethod" type="xenc:AgreementMethodType"/>
  * <complexType name="AgreementMethodType" mixed="true">
  *     <sequence>
@@ -74,15 +74,15 @@ import org.w3c.dom.Element;
  *     </sequence>
  *     <attribute name="Algorithm" type="anyURI" use="required"/>
  * </complexType>
- * }</pre>
+ * </xmp>
  *
  * @author Axl Mattheus
  */
 public interface AgreementMethod {
 
     /**
-     * Returns a {@code byte} array.
-     * @return a {@code byte} array.
+     * Returns a <code>byte</code> array.
+     * @return a <code>byte</code> array.
      */
     byte[] getKANonce();
 
@@ -93,30 +93,30 @@ public interface AgreementMethod {
     void setKANonce(byte[] kanonce);
 
     /**
-     * Returns additional information regarding the {@code AgreementMethod}.
-     * @return additional information regarding the {@code AgreementMethod}.
+     * Returns additional information regarding the <code>AgreementMethod</code>.
+     * @return additional information regarding the <code>AgreementMethod</code>.
      */
     Iterator<Element> getAgreementMethodInformation();
 
     /**
-     * Adds additional {@code AgreementMethod} information.
+     * Adds additional <code>AgreementMethod</code> information.
      *
-     * @param info a {@code Element} that represents additional information
+     * @param info a <code>Element</code> that represents additional information
      * specified by
-     *   <pre>{@code
+     *   <xmp>
      *     <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
-     *   }</pre>
+     *   </xmp>
      */
     void addAgreementMethodInformation(Element info);
 
     /**
-     * Removes additional {@code AgreementMethod} information.
+     * Removes additional <code>AgreementMethod</code> information.
      *
-     * @param info a {@code Element} that represents additional information
+     * @param info a <code>Element</code> that represents additional information
      * specified by
-     *   <pre>{@code
+     *   <xmp>
      *     <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
-     *   }</pre>
+     *   </xmp>
      */
     void revoveAgreementMethodInformation(Element info);
 
@@ -149,9 +149,9 @@ public interface AgreementMethod {
     void setRecipientKeyInfo(KeyInfo keyInfo);
 
     /**
-     * Returns the algorithm URI of this {@code CryptographicMethod}.
+     * Returns the algorithm URI of this <code>CryptographicMethod</code>.
      *
-     * @return the algorithm URI of this {@code CryptographicMethod}
+     * @return the algorithm URI of this <code>CryptographicMethod</code>
      */
     String getAlgorithm();
 }

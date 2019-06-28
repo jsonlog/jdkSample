@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,17 +23,17 @@
 package com.sun.org.apache.xml.internal.security.encryption;
 
 /**
- * The {@code EncryptedKey} element is used to transport encryption keys
+ * The <code>EncryptedKey</code> element is used to transport encryption keys
  * from the originator to a known recipient(s). It may be used as a stand-alone
  * XML document, be placed within an application document, or appear inside an
- * {@code EncryptedData} element as a child of a {@code ds:KeyInfo}
+ * <code>EncryptedData</code> element as a child of a <code>ds:KeyInfo</code>
  * element. The key value is always encrypted to the recipient(s). When
- * {@code EncryptedKey} is decrypted the resulting octets are made
- * available to the {@code EncryptionMethod} algorithm without any
+ * <code>EncryptedKey</code> is decrypted the resulting octets are made
+ * available to the <code>EncryptionMethod</code> algorithm without any
  * additional processing.
  * <p>
  * Its schema definition is as follows:
- * <pre>{@code
+ * <xmp>
  * <element name='EncryptedKey' type='xenc:EncryptedKeyType'/>
  * <complexType name='EncryptedKeyType'>
  *     <complexContent>
@@ -46,7 +46,7 @@ package com.sun.org.apache.xml.internal.security.encryption;
  *         </extension>
  *     </complexContent>
  * </complexType>
- * }</pre>
+ * </xmp>
  *
  * @author Axl Mattheus
  */
@@ -55,31 +55,31 @@ public interface EncryptedKey extends EncryptedType {
     /**
      * Returns a hint as to which recipient this encrypted key value is intended for.
      *
-     * @return the recipient of the {@code EncryptedKey}.
+     * @return the recipient of the <code>EncryptedKey</code>.
      */
     String getRecipient();
 
     /**
-     * Sets the recipient for this {@code EncryptedKey}.
+     * Sets the recipient for this <code>EncryptedKey</code>.
      *
-     * @param recipient the recipient for this {@code EncryptedKey}.
+     * @param recipient the recipient for this <code>EncryptedKey</code>.
      */
     void setRecipient(String recipient);
 
     /**
      * Returns pointers to data and keys encrypted using this key. The reference
-     * list may contain multiple references to {@code EncryptedKey} and
-     * {@code EncryptedData} elements. This is done using
-     * {@code KeyReference} and {@code DataReference} elements
+     * list may contain multiple references to <code>EncryptedKey</code> and
+     * <code>EncryptedData</code> elements. This is done using
+     * <code>KeyReference</code> and <code>DataReference</code> elements
      * respectively.
      *
-     * @return an {@code Iterator} over all the {@code ReferenceList}s
-     *   contained in this {@code EncryptedKey}.
+     * @return an <code>Iterator</code> over all the <code>ReferenceList</code>s
+     *   contained in this <code>EncryptedKey</code>.
      */
     ReferenceList getReferenceList();
 
     /**
-     * Sets the {@code ReferenceList} to the {@code EncryptedKey}.
+     * Sets the <code>ReferenceList</code> to the <code>EncryptedKey</code>.
      *
      * @param list a list of pointers to data elements encrypted using this key.
      */
@@ -87,19 +87,19 @@ public interface EncryptedKey extends EncryptedType {
 
     /**
      * Returns a user readable name with the key value. This may then be used to
-     * reference the key using the {@code ds:KeyName} element within
-     * {@code ds:KeyInfo}. The same {@code CarriedKeyName} label,
+     * reference the key using the <code>ds:KeyName</code> element within
+     * <code>ds:KeyInfo</code>. The same <code>CarriedKeyName</code> label,
      * unlike an ID type, may occur multiple times within a single document. The
-     * value of the key is to be the same in all {@code EncryptedKey}
-     * elements identified with the same {@code CarriedKeyName} label
+     * value of the key is to be the same in all <code>EncryptedKey</code>
+     * elements identified with the same <code>CarriedKeyName</code> label
      * within a single XML document.
      * <br>
      * <b>Note</b> that because whitespace is significant in the value of
-     * the {@code ds:KeyName} element, whitespace is also significant in
-     * the value of the {@code CarriedKeyName} element.
+     * the <code>ds:KeyName</code> element, whitespace is also significant in
+     * the value of the <code>CarriedKeyName</code> element.
      *
      * @return over all the carried names contained in
-     *   this {@code EncryptedKey}.
+     *   this <code>EncryptedKey</code>.
      */
     String getCarriedName();
 

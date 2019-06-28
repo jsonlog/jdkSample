@@ -1,26 +1,26 @@
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.lang.invoke;
@@ -56,11 +56,9 @@ class InvokerBytecodeGenerator {
     private static final String OBJ     = "java/lang/Object";
     private static final String OBJARY  = "[Ljava/lang/Object;";
 
-    private static final String MH_SIG  = "L" + MH + ";";
     private static final String LF_SIG  = "L" + LF + ";";
     private static final String LFN_SIG = "L" + LFN + ";";
     private static final String LL_SIG  = "(L" + OBJ + ";)L" + OBJ + ";";
-    private static final String LLV_SIG = "(L" + OBJ + ";L" + OBJ + ";)V";
     private static final String CLL_SIG = "(L" + CLS + ";L" + OBJ + ";)L" + OBJ + ";";
 
     /** Name of its super class*/
@@ -618,15 +616,6 @@ class InvokerBytecodeGenerator {
         return g.loadMethod(g.generateCustomizedCodeBytes());
     }
 
-    /** Generates code to check that actual receiver and LambdaForm matches */
-    private boolean checkActualReceiver() {
-        // Expects MethodHandle on the stack and actual receiver MethodHandle in slot #0
-        mv.visitInsn(Opcodes.DUP);
-        mv.visitVarInsn(Opcodes.ALOAD, localsMap[0]);
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, MHI, "assertSame", LLV_SIG, false);
-        return true;
-    }
-
     /**
      * Generate an invoker method for the passed {@link LambdaForm}.
      */
@@ -646,16 +635,6 @@ class InvokerBytecodeGenerator {
             mv.visitAnnotation("Ljava/lang/invoke/DontInline;", true);
         }
 
-        if (lambdaForm.customized != null) {
-            // Since LambdaForm is customized for a particular MethodHandle, it's safe to substitute
-            // receiver MethodHandle (at slot #0) with an embedded constant and use it instead.
-            // It enables more efficient code generation in some situations, since embedded constants
-            // are compile-time constants for JIT compiler.
-            mv.visitLdcInsn(constantPlaceholder(lambdaForm.customized));
-            mv.visitTypeInsn(Opcodes.CHECKCAST, MH);
-            assert(checkActualReceiver()); // expects MethodHandle on top of the stack
-            mv.visitVarInsn(Opcodes.ASTORE, localsMap[0]);
-        }
 
         // iterate over the form's names, generating bytecode instructions for each
         // start iterating at the first name following the arguments
@@ -669,11 +648,6 @@ class InvokerBytecodeGenerator {
             switch (intr) {
                 case SELECT_ALTERNATIVE:
                     assert isSelectAlternative(i);
-                    if (PROFILE_GWT) {
-                        assert(name.arguments[0] instanceof Name &&
-                               nameRefersTo((Name)name.arguments[0], MethodHandleImpl.class, "profileBoolean"));
-                        mv.visitAnnotation("Ljava/lang/invoke/InjectedProfile;", true);
-                    }
                     onStack = emitSelectAlternative(name, lambdaForm.names[i+1]);
                     i++;  // skip MH.invokeBasic of the selectAlternative result
                     continue;

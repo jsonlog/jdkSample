@@ -1,26 +1,26 @@
 /*
  * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 package java.net;
 import java.io.IOException;
@@ -118,7 +118,7 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
     private int readSocksReply(InputStream in, byte[] data, long deadlineMillis) throws IOException {
         int len = data.length;
         int received = 0;
-        while (received < len) {
+        for (int attempts = 0; received < len && attempts < 3; attempts++) {
             int count;
             try {
                 count = ((SocketInputStream)in).read(data, received, len - received, remainingMillis(deadlineMillis));
@@ -520,11 +520,7 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
                     throw new SocketException("Reply from SOCKS server badly formatted");
                 break;
             case DOMAIN_NAME:
-                byte[] lenByte = new byte[1];
-                i = readSocksReply(in, lenByte, deadlineMillis);
-                if (i != 1)
-                    throw new SocketException("Reply from SOCKS server badly formatted");
-                len = lenByte[0] & 0xFF;
+                len = data[1];
                 byte[] host = new byte[len];
                 i = readSocksReply(in, host, deadlineMillis);
                 if (i != len)
@@ -535,7 +531,7 @@ class SocksSocketImpl extends PlainSocketImpl implements SocksConsts {
                     throw new SocketException("Reply from SOCKS server badly formatted");
                 break;
             case IPV6:
-                len = 16;
+                len = data[1];
                 addr = new byte[len];
                 i = readSocksReply(in, addr, deadlineMillis);
                 if (i != len)

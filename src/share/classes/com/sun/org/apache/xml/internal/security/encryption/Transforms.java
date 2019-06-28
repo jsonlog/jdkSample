@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,16 +23,16 @@
 package com.sun.org.apache.xml.internal.security.encryption;
 
 /**
- * A container for {@code ds:Transform}s.
+ * A container for <code>ds:Transform</code>s.
  * <p>
  * It is defined as follows:
- * <pre>{@code
+ * <xmp>
  * <complexType name='TransformsType'>
  *     <sequence>
  *         <element ref='ds:Transform' maxOccurs='unbounded'/>
  *     </sequence>
  * </complexType>
- * }</pre>
+ * </xmp>
  *
  * @author Axl Mattheus
  * @see com.sun.org.apache.xml.internal.security.encryption.CipherReference

@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 1997, 2018, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.util.jar;
@@ -180,12 +180,10 @@ class JarVerifier {
 
         // only set the jev object for entries that have a signature
         // (either verified or not)
-        if (!name.equals(JarFile.MANIFEST_NAME)) {
-            if (sigFileSigners.get(name) != null ||
-                    verifiedSigners.get(name) != null) {
-                mev.setEntry(name, je);
-                return;
-            }
+        if (sigFileSigners.get(name) != null ||
+                verifiedSigners.get(name) != null) {
+            mev.setEntry(name, je);
+            return;
         }
 
         // don't compute the digest for this entry
@@ -878,25 +876,5 @@ class JarVerifier {
 
     static CodeSource getUnsignedCS(URL url) {
         return new VerifierCodeSource(null, url, (java.security.cert.Certificate[]) null);
-    }
-
-    /**
-     * Returns whether the name is trusted. Used by
-     * {@link Manifest#getTrustedAttributes(String)}.
-     */
-    boolean isTrustedManifestEntry(String name) {
-        // How many signers? MANIFEST.MF is always verified
-        CodeSigner[] forMan = verifiedSigners.get(JarFile.MANIFEST_NAME);
-        if (forMan == null) {
-            return true;
-        }
-        // Check sigFileSigners first, because we are mainly dealing with
-        // non-file entries which will stay in sigFileSigners forever.
-        CodeSigner[] forName = sigFileSigners.get(name);
-        if (forName == null) {
-            forName = verifiedSigners.get(name);
-        }
-        // Returns trusted if all signers sign the entry
-        return forName != null && forName.length == forMan.length;
     }
 }

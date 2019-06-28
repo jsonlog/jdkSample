@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -27,16 +27,16 @@ import org.w3c.dom.Element;
 
 /**
  * Additional information items concerning the generation of the
- * {@code EncryptedData} or {@code EncryptedKey} can be placed in an
- * {@code EncryptionProperty} element (e.g., date/time stamp or the serial
+ * <code>EncryptedData</code> or <code>EncryptedKey</code> can be placed in an
+ * <code>EncryptionProperty</code> element (e.g., date/time stamp or the serial
  * number of cryptographic hardware used during encryption). The Target
- * attribute identifies the {@code EncryptedType} structure being
+ * attribute identifies the <code>EncryptedType</code> structure being
  * described. anyAttribute permits the inclusion of attributes from the XML
- * namespace to be included (i.e., {@code xml:space},
- * {@code xml:lang}, and {@code xml:base}).
+ * namespace to be included (i.e., <code>xml:space</code>,
+ * <code>xml:lang</code>, and <code>xml:base</code>).
  * <p>
  * It is defined as follows:
- * <pre>{@code
+ * <xmp>
  * <element name='EncryptionProperty' type='xenc:EncryptionPropertyType'/>
  * <complexType name='EncryptionPropertyType' mixed='true'>
  *     <choice maxOccurs='unbounded'>
@@ -46,17 +46,17 @@ import org.w3c.dom.Element;
  *     <attribute name='Id' type='ID' use='optional'/>
  *     <anyAttribute namespace="http://www.w3.org/XML/1998/namespace"/>
  * </complexType>
- * }</pre>
+ * </xmp>
  *
  * @author Axl Mattheus
  */
 public interface EncryptionProperty {
 
     /**
-     * Returns the {@code EncryptedType} being described.
+     * Returns the <code>EncryptedType</code> being described.
      *
-     * @return the {@code EncryptedType} being described by this
-     *   {@code EncryptionProperty}.
+     * @return the <code>EncryptedType</code> being described by this
+     *   <code>EncryptionProperty</code>.
      */
     String getTarget();
 
@@ -68,7 +68,7 @@ public interface EncryptionProperty {
     void setTarget(String target);
 
     /**
-     * Returns the id of the {@CODE EncryptionProperty}.
+     * Returns the id of the <CODE>EncryptionProperty</CODE>.
      *
      * @return the id.
      */
@@ -82,7 +82,7 @@ public interface EncryptionProperty {
     void setId(String id);
 
     /**
-     * Returns the attribute's value in the {@code xml} namespace.
+     * Returns the attribute's value in the <code>xml</code> namespace.
      *
      * @param attribute
      * @return the attribute's value.
@@ -98,9 +98,9 @@ public interface EncryptionProperty {
     void setAttribute(String attribute, String value);
 
     /**
-     * Returns the properties of the {@CODE EncryptionProperty}.
+     * Returns the properties of the <CODE>EncryptionProperty</CODE>.
      *
-     * @return an {@code Iterator} over all the additional encryption
+     * @return an <code>Iterator</code> over all the additional encryption
      *   information contained in this class.
      */
     Iterator<Element> getEncryptionInformation();

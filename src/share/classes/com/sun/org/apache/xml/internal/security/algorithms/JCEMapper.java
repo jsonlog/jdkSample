@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -89,10 +89,6 @@ public class JCEMapper {
         algorithmsMap.put(
             XMLSignature.ALGO_ID_SIGNATURE_DSA,
             new Algorithm("", "SHA1withDSA", "Signature")
-        );
-        algorithmsMap.put(
-            XMLSignature.ALGO_ID_SIGNATURE_DSA_SHA256,
-            new Algorithm("", "SHA256withDSA", "Signature")
         );
         algorithmsMap.put(
             XMLSignature.ALGO_ID_SIGNATURE_NOT_RECOMMENDED_RSA_MD5,

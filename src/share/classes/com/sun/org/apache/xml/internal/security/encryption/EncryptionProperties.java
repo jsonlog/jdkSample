@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -25,15 +25,15 @@ package com.sun.org.apache.xml.internal.security.encryption;
 import java.util.Iterator;
 
 /**
- * {@code EncryptionProperties} can hold additional information concerning
- * the generation of the {@code EncryptedData} or
- * {@code EncryptedKey}. This information is wraped int an
- * {@code EncryptionProperty} element. Examples of additional information
+ * <code>EncryptionProperties</code> can hold additional information concerning
+ * the generation of the <code>EncryptedData</code> or
+ * <code>EncryptedKey</code>. This information is wraped int an
+ * <code>EncryptionProperty</code> element. Examples of additional information
  * is e.g., a date/time stamp or the serial number of cryptographic hardware
  * used during encryption).
  * <p>
  * It is defined as follows:
- * <pre>{@code
+ * <xmp>
  * <element name='EncryptionProperties' type='xenc:EncryptionPropertiesType'/>
  * <complexType name='EncryptionPropertiesType'>
  *     <sequence>
@@ -41,14 +41,14 @@ import java.util.Iterator;
  *     </sequence>
  *     <attribute name='Id' type='ID' use='optional'/>
  * </complexType>
- * }</pre>
+ * </xmp>
  *
  * @author Axl Mattheus
  */
 public interface EncryptionProperties {
 
     /**
-     * Returns the {@code EncryptionProperties}' id.
+     * Returns the <code>EncryptionProperties</code>' id.
      *
      * @return the id.
      */
@@ -62,23 +62,23 @@ public interface EncryptionProperties {
     void setId(String id);
 
     /**
-     * Returns an {@code Iterator} over all the
-     * {@code EncryptionPropterty} elements contained in this
-     * {@code EncryptionProperties}.
+     * Returns an <code>Iterator</code> over all the
+     * <code>EncryptionPropterty</code> elements contained in this
+     * <code>EncryptionProperties</code>.
      *
-     * @return an {@code Iterator} over all the encryption properties.
+     * @return an <code>Iterator</code> over all the encryption properties.
      */
     Iterator<EncryptionProperty> getEncryptionProperties();
 
     /**
-     * Adds an {@code EncryptionProperty}.
+     * Adds an <code>EncryptionProperty</code>.
      *
      * @param property
      */
     void addEncryptionProperty(EncryptionProperty property);
 
     /**
-     * Removes the specified {@code EncryptionProperty}.
+     * Removes the specified <code>EncryptionProperty</code>.
      *
      * @param property
      */

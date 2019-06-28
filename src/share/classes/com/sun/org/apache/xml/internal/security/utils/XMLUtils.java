@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -934,7 +934,7 @@ public class XMLUtils {
         Element foundElement = null;
 
         String id = value.trim();
-        if (!id.isEmpty() && id.charAt(0) == '#') {
+        if (id.charAt(0) == '#') {
             id = id.substring(1);
         }
 
@@ -994,7 +994,7 @@ public class XMLUtils {
         Node processedNode = null;
 
         String id = value.trim();
-        if (!id.isEmpty() && id.charAt(0) == '#') {
+        if (id.charAt(0) == '#') {
             id = id.substring(1);
         }
 

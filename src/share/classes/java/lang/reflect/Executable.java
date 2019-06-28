@@ -1,26 +1,26 @@
 /*
  * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.lang.reflect;
@@ -245,6 +245,7 @@ public abstract class Executable extends AccessibleObject
      * declared or implicitly declared or neither) for the executable
      * represented by this object.
      *
+     * @since 1.8
      * @return The number of formal parameters for the executable this
      * object represents
      */
@@ -342,6 +343,7 @@ public abstract class Executable extends AccessibleObject
      * have unique names, or names that are legal identifiers in the
      * Java programming language (JLS 3.8).
      *
+     * @since 1.8
      * @throws MalformedParametersException if the class file contains
      * a MethodParameters attribute that is improperly formatted.
      * @return an array of {@code Parameter} objects representing all
@@ -573,6 +575,7 @@ public abstract class Executable extends AccessibleObject
     /**
      * {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
+     * @since 1.8
      */
     @Override
     public <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
@@ -620,6 +623,8 @@ public abstract class Executable extends AccessibleObject
      *
      * @return an object representing the return type of the method
      * or constructor represented by this {@code Executable}
+     *
+     * @since 1.8
      */
     public abstract AnnotatedType getAnnotatedReturnType();
 
@@ -628,6 +633,8 @@ public abstract class Executable extends AccessibleObject
      * Returns an AnnotatedType object that represents the use of a type to
      * specify the return type of the method/constructor represented by this
      * Executable.
+     *
+     * @since 1.8
      */
     AnnotatedType getAnnotatedReturnType0(Type returnType) {
         return TypeAnnotationParser.buildAnnotatedType(getTypeAnnotationBytes0(),
@@ -657,6 +664,8 @@ public abstract class Executable extends AccessibleObject
      *
      * @return an object representing the receiver type of the method or
      * constructor represented by this {@code Executable}
+     *
+     * @since 1.8
      */
     public AnnotatedType getAnnotatedReceiverType() {
         if (Modifier.isStatic(this.getModifiers()))
@@ -683,6 +692,8 @@ public abstract class Executable extends AccessibleObject
      * @return an array of objects representing the types of the
      * formal parameters of the method or constructor represented by this
      * {@code Executable}
+     *
+     * @since 1.8
      */
     public AnnotatedType[] getAnnotatedParameterTypes() {
         return TypeAnnotationParser.buildAnnotatedTypes(getTypeAnnotationBytes0(),
@@ -707,6 +718,8 @@ public abstract class Executable extends AccessibleObject
      * @return an array of objects representing the declared
      * exceptions of the method or constructor represented by this {@code
      * Executable}
+     *
+     * @since 1.8
      */
     public AnnotatedType[] getAnnotatedExceptionTypes() {
         return TypeAnnotationParser.buildAnnotatedTypes(getTypeAnnotationBytes0(),

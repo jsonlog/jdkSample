@@ -1,26 +1,26 @@
 /*
  * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.lang.invoke;
@@ -48,11 +48,9 @@ import sun.misc.Unsafe;
     static final int COMPILE_THRESHOLD;
     static final int DONT_INLINE_THRESHOLD;
     static final int PROFILE_LEVEL;
-    static final boolean PROFILE_GWT;
-    static final int CUSTOMIZE_THRESHOLD;
 
     static {
-        final Object[] values = new Object[9];
+        final Object[] values = new Object[7];
         AccessController.doPrivileged(new PrivilegedAction<Void>() {
                 public Void run() {
                     values[0] = Boolean.getBoolean("java.lang.invoke.MethodHandle.DEBUG_NAMES");
@@ -62,8 +60,6 @@ import sun.misc.Unsafe;
                     values[4] = Integer.getInteger("java.lang.invoke.MethodHandle.COMPILE_THRESHOLD", 0);
                     values[5] = Integer.getInteger("java.lang.invoke.MethodHandle.DONT_INLINE_THRESHOLD", 30);
                     values[6] = Integer.getInteger("java.lang.invoke.MethodHandle.PROFILE_LEVEL", 0);
-                    values[7] = Boolean.parseBoolean(System.getProperty("java.lang.invoke.MethodHandle.PROFILE_GWT", "true"));
-                    values[8] = Integer.getInteger("java.lang.invoke.MethodHandle.CUSTOMIZE_THRESHOLD", 127);
                     return null;
                 }
             });
@@ -74,12 +70,6 @@ import sun.misc.Unsafe;
         COMPILE_THRESHOLD         = (Integer) values[4];
         DONT_INLINE_THRESHOLD     = (Integer) values[5];
         PROFILE_LEVEL             = (Integer) values[6];
-        PROFILE_GWT               = (Boolean) values[7];
-        CUSTOMIZE_THRESHOLD       = (Integer) values[8];
-
-        if (CUSTOMIZE_THRESHOLD < -1 || CUSTOMIZE_THRESHOLD > 127) {
-            throw newInternalError("CUSTOMIZE_THRESHOLD should be in [-1...127] range");
-        }
     }
 
     /** Tell if any of the debugging switches are turned on.

@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 1997, 2015, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package javax.swing;
@@ -35,9 +35,6 @@ import javax.swing.plaf.*;
 import javax.swing.tree.*;
 import javax.swing.text.Position;
 import javax.accessibility.*;
-
-import sun.awt.AWTAccessor;
-import sun.awt.AWTAccessor.MouseEventAccessor;
 import sun.swing.SwingUtilities2;
 import sun.swing.SwingUtilities2.Section;
 import static sun.swing.SwingUtilities2.Section.*;
@@ -875,10 +872,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             if(treeModelListener != null)
                 treeModel.addTreeModelListener(treeModelListener);
             // Mark the root as expanded, if it isn't a leaf.
-            Object treeRoot = treeModel.getRoot();
-            if(treeRoot != null &&
-               !treeModel.isLeaf(treeRoot)) {
-                expandedState.put(new TreePath(treeRoot),
+            if(treeModel.getRoot() != null &&
+               !treeModel.isLeaf(treeModel.getRoot())) {
+                expandedState.put(new TreePath(treeModel.getRoot()),
                                   Boolean.TRUE);
             }
         }
@@ -1565,10 +1561,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
                                               event.getClickCount(),
                                               event.isPopupTrigger(),
                                               MouseEvent.NOBUTTON);
-                    MouseEventAccessor meAccessor =
-                        AWTAccessor.getMouseEventAccessor();
-                    meAccessor.setCausedByTouchEvent(newEvent,
-                        meAccessor.isCausedByTouchEvent(event));
 
                     tip = ((JComponent)rComponent).getToolTipText(newEvent);
                 }
@@ -3231,9 +3223,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
 
         int          count = indexs.length;
         Object       parent = model.getRoot();
-        if (parent == null)
-            return null;
-
         TreePath     parentPath = new TreePath(parent);
 
         for(int counter = 0; counter < count; counter++) {
@@ -3809,9 +3798,8 @@ public class JTree extends JComponent implements Scrollable, Accessible
             if (parent.getPathCount() == 1) {
                 // New root, remove everything!
                 clearToggledPaths();
-                Object treeRoot = treeModel.getRoot();
-                if(treeRoot != null &&
-                   !treeModel.isLeaf(treeRoot)) {
+                if(treeModel.getRoot() != null &&
+                   !treeModel.isLeaf(treeModel.getRoot())) {
                     // Mark the root as expanded, if it isn't a leaf.
                     expandedState.put(parent, Boolean.TRUE);
                 }
@@ -4295,11 +4283,7 @@ public class JTree extends JComponent implements Scrollable, Accessible
             if (model == null) {
                 return null;
             }
-            Object treeRoot = model.getRoot();
-            if (treeRoot == null)
-                return null;
-
-            TreePath path = new TreePath(treeRoot);
+            TreePath path = new TreePath(model.getRoot());
             if (JTree.this.isVisible(path)) {
                 TreeCellRenderer r = JTree.this.getCellRenderer();
                 TreeUI ui = JTree.this.getUI();
@@ -4312,8 +4296,8 @@ public class JTree extends JComponent implements Scrollable, Accessible
                     boolean expanded = JTree.this.isExpanded(path);
 
                     return r.getTreeCellRendererComponent(JTree.this,
-                        treeRoot, selected, expanded,
-                        model.isLeaf(treeRoot), row, hasFocus);
+                        model.getRoot(), selected, expanded,
+                        model.isLeaf(model.getRoot()), row, hasFocus);
                 }
             }
             return null;
@@ -4366,11 +4350,8 @@ public class JTree extends JComponent implements Scrollable, Accessible
                 return 1;    // the root node
             }
 
-            Object treeRoot = model.getRoot();
-            if (treeRoot == null)
-                return 0;
             // return the root's first set of children count
-            return model.getChildCount(treeRoot);
+            return model.getChildCount(model.getRoot());
         }
 
         /**
@@ -4384,17 +4365,9 @@ public class JTree extends JComponent implements Scrollable, Accessible
             if (model == null) {
                 return null;
             }
-
-            Object treeRoot = model.getRoot();
-            if (treeRoot == null) {
-                return null;
-            }
-
             if (isRootVisible()) {
                 if (i == 0) {    // return the root node Accessible
-                    Object[] objPath = { treeRoot };
-                    if (objPath[0] == null)
-                        return null;
+                    Object[] objPath = { model.getRoot() };
                     TreePath path = new TreePath(objPath);
                     return new AccessibleJTreeNode(JTree.this, path, JTree.this);
                 } else {
@@ -4403,14 +4376,12 @@ public class JTree extends JComponent implements Scrollable, Accessible
             }
 
             // return Accessible for one of root's child nodes
-            int count = model.getChildCount(treeRoot);
+            int count = model.getChildCount(model.getRoot());
             if (i < 0 || i >= count) {
                 return null;
             }
-            Object obj = model.getChild(treeRoot, i);
-            if (obj == null)
-                return null;
-            Object[] objPath = { treeRoot, obj };
+            Object obj = model.getChild(model.getRoot(), i);
+            Object[] objPath = { model.getRoot(), obj };
             TreePath path = new TreePath(objPath);
             return new AccessibleJTreeNode(JTree.this, path, JTree.this);
         }
@@ -4449,9 +4420,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
         public int getAccessibleSelectionCount() {
             Object[] rootPath = new Object[1];
             rootPath[0] = treeModel.getRoot();
-            if (rootPath[0] == null)
-                return 0;
-
             TreePath childPath = new TreePath(rootPath);
             if (JTree.this.isPathSelected(childPath)) {
                 return 1;
@@ -4474,8 +4442,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
             if (i == 0) {
                 Object[] rootPath = new Object[1];
                 rootPath[0] = treeModel.getRoot();
-                if (rootPath[0] == null)
-                    return null;
                 TreePath childPath = new TreePath(rootPath);
                 if (JTree.this.isPathSelected(childPath)) {
                     return new AccessibleJTreeNode(JTree.this, childPath, JTree.this);
@@ -4495,8 +4461,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
             if (i == 0) {
                 Object[] rootPath = new Object[1];
                 rootPath[0] = treeModel.getRoot();
-                if (rootPath[0] == null)
-                    return false;
                 TreePath childPath = new TreePath(rootPath);
                 return JTree.this.isPathSelected(childPath);
             } else {
@@ -4518,8 +4482,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
            if (model != null) {
                if (i == 0) {
                    Object[] objPath = {model.getRoot()};
-                   if (objPath[0] == null)
-                        return;
                    TreePath path = new TreePath(objPath);
                    JTree.this.addSelectionPath(path);
                 }
@@ -4538,8 +4500,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
             if (model != null) {
                 if (i == 0) {
                     Object[] objPath = {model.getRoot()};
-                    if (objPath[0] == null)
-                        return;
                     TreePath path = new TreePath(objPath);
                     JTree.this.removeSelectionPath(path);
                 }
@@ -4565,8 +4525,6 @@ public class JTree extends JComponent implements Scrollable, Accessible
             TreeModel model = JTree.this.getModel();
             if (model != null) {
                 Object[] objPath = {model.getRoot()};
-                if (objPath[0] == null)
-                    return;
                 TreePath path = new TreePath(objPath);
                 JTree.this.addSelectionPath(path);
             }

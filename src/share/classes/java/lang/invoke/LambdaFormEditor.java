@@ -1,26 +1,26 @@
 /*
  * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.lang.invoke;
@@ -51,10 +51,7 @@ class LambdaFormEditor {
     static LambdaFormEditor lambdaFormEditor(LambdaForm lambdaForm) {
         // TO DO:  Consider placing intern logic here, to cut down on duplication.
         // lambdaForm = findPreexistingEquivalent(lambdaForm)
-
-        // Always use uncustomized version for editing.
-        // It helps caching and customized LambdaForms reuse transformCache field to keep a link to uncustomized version.
-        return new LambdaFormEditor(lambdaForm.uncustomize());
+        return new LambdaFormEditor(lambdaForm);
     }
 
     /** A description of a cached transform, possibly associated with the result of the transform.
@@ -436,7 +433,7 @@ class LambdaFormEditor {
     }
 
     private MethodType bindArgumentType(BoundMethodHandle mh, int pos, BasicType bt) {
-        assert(mh.form.uncustomize() == lambdaForm);
+        assert(mh.form == lambdaForm);
         assert(mh.form.names[1+pos].type == bt);
         assert(BasicType.basicType(mh.type().parameterType(pos)) == bt);
         return mh.type().dropParameterTypes(pos, pos+1);
@@ -808,9 +805,9 @@ class LambdaFormEditor {
         System.arraycopy(lambdaForm.names, skip + outArgs, names2, skip + inTypes, bodyLength);
         int arity2 = names2.length - bodyLength;
         int result2 = lambdaForm.result;
-        if (result2 >= skip) {
+        if (result2 >= 0) {
             if (result2 < skip + outArgs) {
-                result2 = reorder[result2 - skip] + skip;
+                result2 = reorder[result2 - skip];
             } else {
                 result2 = result2 - outArgs + inTypes;
             }

@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -84,10 +84,6 @@ public final class XMLSignature extends SignatureElementProxy {
     /** Signature - Required DSAwithSHA1 (DSS) */
     public static final String ALGO_ID_SIGNATURE_DSA =
         Constants.SignatureSpecNS + "dsa-sha1";
-
-    /** Signature - Optional DSAwithSHA256 */
-    public static final String ALGO_ID_SIGNATURE_DSA_SHA256 =
-        Constants.SignatureSpec11NS + "dsa-sha256";
 
     /** Signature - Recommended RSAwithSHA1 */
     public static final String ALGO_ID_SIGNATURE_RSA =

@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 1997, 2017, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.util;
@@ -34,7 +34,6 @@ import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import sun.misc.SharedSecrets;
 
 /**
  * Hash table based implementation of the <tt>Map</tt> interface.  This
@@ -491,7 +490,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Implements Map.putAll and Map constructor.
+     * Implements Map.putAll and Map constructor
      *
      * @param m the map
      * @param evict false when initially constructing this map, else
@@ -558,7 +557,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Implements Map.get and related methods.
+     * Implements Map.get and related methods
      *
      * @param hash hash for key
      * @param key the key
@@ -613,7 +612,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Implements Map.put and related methods.
+     * Implements Map.put and related methods
      *
      * @param hash hash for key
      * @param key the key
@@ -701,7 +700,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         }
         threshold = newThr;
         @SuppressWarnings({"rawtypes","unchecked"})
-        Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
+            Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
         table = newTab;
         if (oldTab != null) {
             for (int j = 0; j < oldCap; ++j) {
@@ -801,7 +800,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Implements Map.remove and related methods.
+     * Implements Map.remove and related methods
      *
      * @param hash hash for key
      * @param key the key
@@ -903,12 +902,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * @return a set view of the keys contained in this map
      */
     public Set<K> keySet() {
-        Set<K> ks = keySet;
-        if (ks == null) {
-            ks = new KeySet();
-            keySet = ks;
-        }
-        return ks;
+        Set<K> ks;
+        return (ks = keySet) == null ? (keySet = new KeySet()) : ks;
     }
 
     final class KeySet extends AbstractSet<K> {
@@ -954,12 +949,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      * @return a view of the values contained in this map
      */
     public Collection<V> values() {
-        Collection<V> vs = values;
-        if (vs == null) {
-            vs = new Values();
-            values = vs;
-        }
-        return vs;
+        Collection<V> vs;
+        return (vs = values) == null ? (values = new Values()) : vs;
     }
 
     final class Values extends AbstractCollection<V> {
@@ -1364,11 +1355,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     }
 
     /**
-     * Reconstitutes this map from a stream (that is, deserializes it).
-     * @param s the stream
-     * @throws ClassNotFoundException if the class of a serialized object
-     *         could not be found
-     * @throws IOException if an I/O error occurs
+     * Reconstitute the {@code HashMap} instance from a stream (i.e.,
+     * deserialize it).
      */
     private void readObject(java.io.ObjectInputStream s)
         throws IOException, ClassNotFoundException {
@@ -1396,12 +1384,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             float ft = (float)cap * lf;
             threshold = ((cap < MAXIMUM_CAPACITY && ft < MAXIMUM_CAPACITY) ?
                          (int)ft : Integer.MAX_VALUE);
-
-            // Check Map.Entry[].class since it's the nearest public type to
-            // what we're actually creating.
-            SharedSecrets.getJavaOISAccess().checkArray(s, Map.Entry[].class, cap);
             @SuppressWarnings({"rawtypes","unchecked"})
-            Node<K,V>[] tab = (Node<K,V>[])new Node[cap];
+                Node<K,V>[] tab = (Node<K,V>[])new Node[cap];
             table = tab;
 
             // Read the keys and values, and put the mappings in the HashMap
@@ -1908,6 +1892,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 
         /**
          * Forms tree of the nodes linked from this node.
+         * @return root of tree
          */
         final void treeify(Node<K,V>[] tab) {
             TreeNode<K,V> root = null;
@@ -2045,11 +2030,8 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 return;
             if (root.parent != null)
                 root = root.root();
-            if (root == null
-                || (movable
-                    && (root.right == null
-                        || (rl = root.left) == null
-                        || rl.left == null))) {
+            if (root == null || root.right == null ||
+                (rl = root.left) == null || rl.left == null) {
                 tab[index] = first.untreeify(map);  // too small
                 return;
             }
@@ -2278,7 +2260,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 
         static <K,V> TreeNode<K,V> balanceDeletion(TreeNode<K,V> root,
                                                    TreeNode<K,V> x) {
-            for (TreeNode<K,V> xp, xpl, xpr;;) {
+            for (TreeNode<K,V> xp, xpl, xpr;;)  {
                 if (x == null || x == root)
                     return root;
                 else if ((xp = x.parent) == null) {

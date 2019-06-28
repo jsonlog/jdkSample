@@ -1,33 +1,32 @@
 /*
- * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 package java.util.stream;
 
 import java.util.Spliterator;
 import java.util.concurrent.CountedCompleter;
 import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.ForkJoinWorkerThread;
 
 /**
  * Abstract base class for most fork-join tasks used to implement stream ops.
@@ -89,7 +88,13 @@ abstract class AbstractTask<P_IN, P_OUT, R,
                             K extends AbstractTask<P_IN, P_OUT, R, K>>
         extends CountedCompleter<R> {
 
-    private static final int LEAF_TARGET = ForkJoinPool.getCommonPoolParallelism() << 2;
+    /**
+     * Default target factor of leaf tasks for parallel decomposition.
+     * To allow load balancing, we over-partition, currently to approximately
+     * four tasks per processor, which enables others to help out
+     * if leaf tasks are uneven or some processors are otherwise busy.
+     */
+    static final int LEAF_TARGET = ForkJoinPool.getCommonPoolParallelism() << 2;
 
     /** The pipeline helper, common to all tasks in a computation */
     protected final PipelineHelper<P_OUT> helper;
@@ -152,22 +157,6 @@ abstract class AbstractTask<P_IN, P_OUT, R,
     }
 
     /**
-     * Default target of leaf tasks for parallel decomposition.
-     * To allow load balancing, we over-partition, currently to approximately
-     * four tasks per processor, which enables others to help out
-     * if leaf tasks are uneven or some processors are otherwise busy.
-     */
-    public static int getLeafTarget() {
-        Thread t = Thread.currentThread();
-        if (t instanceof ForkJoinWorkerThread) {
-            return ((ForkJoinWorkerThread) t).getPool().getParallelism() << 2;
-        }
-        else {
-            return LEAF_TARGET;
-        }
-    }
-
-    /**
      * Constructs a new node of type T whose parent is the receiver; must call
      * the AbstractTask(T, Spliterator) constructor with the receiver and the
      * provided Spliterator.
@@ -192,7 +181,7 @@ abstract class AbstractTask<P_IN, P_OUT, R,
      * @return suggested target leaf size
      */
     public static long suggestTargetSize(long sizeEstimate) {
-        long est = sizeEstimate / getLeafTarget();
+        long est = sizeEstimate / LEAF_TARGET;
         return est > 0L ? est : 1L;
     }
 

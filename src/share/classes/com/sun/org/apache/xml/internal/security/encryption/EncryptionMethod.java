@@ -1,6 +1,6 @@
 /*
- * reserved comment block
- * DO NOT REMOVE OR ALTER!
+ * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -26,12 +26,12 @@ import java.util.Iterator;
 import org.w3c.dom.Element;
 
 /**
- * {@code EncryptionMethod} describes the encryption algorithm applied to
+ * <code>EncryptionMethod</code> describes the encryption algorithm applied to
  * the cipher data. If the element is absent, the encryption algorithm must be
  * known by the recipient or the decryption will fail.
  * <p>
  * It is defined as follows:
- * <pre>{@code
+ * <xmp>
  * <complexType name='EncryptionMethodType' mixed='true'>
  *     <sequence>
  *         <element name='KeySize' minOccurs='0' type='xenc:KeySizeType'/>
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
  *     </sequence>
  *     <attribute name='Algorithm' type='anyURI' use='required'/>
  * </complexType>
- * }</pre>
+ * </xmp>
  *
  * @author Axl Mattheus
  */
@@ -108,10 +108,10 @@ public interface EncryptionMethod {
 
     /**
      * Returns an iterator over all the additional elements contained in the
-     * {@code EncryptionMethod}.
+     * <code>EncryptionMethod</code>.
      *
-     * @return an {@code Iterator} over all the additional information
-     *   about the {@code EncryptionMethod}.
+     * @return an <code>Iterator</code> over all the additional information
+     *   about the <code>EncryptionMethod</code>.
      */
     Iterator<Element> getEncryptionMethodInformation();
 
@@ -126,7 +126,7 @@ public interface EncryptionMethod {
      * Removes encryption method information.
      *
      * @param information the information to remove from the
-     *   {@code EncryptionMethod}.
+     *   <code>EncryptionMethod</code>.
      */
     void removeEncryptionMethodInformation(Element information);
 }

@@ -1,26 +1,26 @@
 /*
- * Copyright (c) 1996, 2017, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.security;
@@ -52,10 +52,11 @@ import sun.security.jca.GetInstance.Instance;
  * authentication and integrity assurance of digital data.
  *
  * <p> The signature algorithm can be, among others, the NIST standard
- * DSA, using DSA and SHA-256. The DSA algorithm using the
- * SHA-256 message digest algorithm can be specified as {@code SHA256withDSA}.
- * In the case of RSA the signing algorithm could be specified as, for example,
- * {@code SHA256withRSA}.
+ * DSA, using DSA and SHA-1. The DSA algorithm using the
+ * SHA-1 message digest algorithm can be specified as {@code SHA1withDSA}.
+ * In the case of RSA, there are multiple choices for the message digest
+ * algorithm, so the signing algorithm could be specified as, for example,
+ * {@code MD2withRSA}, {@code MD5withRSA}, or {@code SHA1withRSA}.
  * The algorithm name must be specified, as there is no default.
  *
  * <p> A Signature object can be used to generate and verify digital
@@ -437,10 +438,6 @@ public abstract class Signature extends SignatureSpi {
         return this.provider;
     }
 
-    private String getProviderName() {
-        return (provider == null)  ? "(no provider)" : provider.getName();
-    }
-
     void chooseFirstProvider() {
         // empty, overridden in Delegate
     }
@@ -462,7 +459,7 @@ public abstract class Signature extends SignatureSpi {
 
         if (!skipDebug && pdebug != null) {
             pdebug.println("Signature." + algorithm +
-                " verification algorithm from: " + getProviderName());
+                " verification algorithm from: " + this.provider.getName());
         }
     }
 
@@ -511,7 +508,7 @@ public abstract class Signature extends SignatureSpi {
 
         if (!skipDebug && pdebug != null) {
             pdebug.println("Signature." + algorithm +
-                " verification algorithm from: " + getProviderName());
+                " verification algorithm from: " + this.provider.getName());
         }
     }
 
@@ -532,7 +529,7 @@ public abstract class Signature extends SignatureSpi {
 
         if (!skipDebug && pdebug != null) {
             pdebug.println("Signature." + algorithm +
-                " signing algorithm from: " + getProviderName());
+                " signing algorithm from: " + this.provider.getName());
         }
     }
 
@@ -555,7 +552,7 @@ public abstract class Signature extends SignatureSpi {
 
         if (!skipDebug && pdebug != null) {
             pdebug.println("Signature." + algorithm +
-                " signing algorithm from: " + getProviderName());
+                " signing algorithm from: " + this.provider.getName());
         }
     }
 
@@ -1051,7 +1048,7 @@ public abstract class Signature extends SignatureSpi {
                             debug.println("Further warnings of this type will "
                                 + "be suppressed");
                         }
-                        new Exception("Debug call trace").printStackTrace();
+                        new Exception("Call trace").printStackTrace();
                     }
                 }
                 Exception lastException = null;
@@ -1319,7 +1316,7 @@ public abstract class Signature extends SignatureSpi {
                 byte[] out = cipher.doFinal(sigBytes);
                 byte[] dataBytes = data.toByteArray();
                 data.reset();
-                return MessageDigest.isEqual(out, dataBytes);
+                return Arrays.equals(out, dataBytes);
             } catch (BadPaddingException e) {
                 // e.g. wrong public key used
                 // return false rather than throwing exception

@@ -1,26 +1,26 @@
 /*
  * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
 
 package java.lang.invoke;
@@ -1140,24 +1140,33 @@ s.writeObject(this.parameterArray());
      * @param s the stream to read the object from
      * @throws java.io.IOException if there is a problem reading the object
      * @throws ClassNotFoundException if one of the component classes cannot be resolved
+     * @see #MethodType()
      * @see #readResolve
      * @see #writeObject
      */
     private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
-        // Assign temporary defaults in case this object escapes
-        MethodType_init(void.class, NO_PTYPES);
-
         s.defaultReadObject();  // requires serialPersistentFields to be an empty array
 
         Class<?>   returnType     = (Class<?>)   s.readObject();
         Class<?>[] parameterArray = (Class<?>[]) s.readObject();
-        parameterArray = parameterArray.clone();  // make sure it is unshared
 
-        // Assign deserialized values
+        // Probably this object will never escape, but let's check
+        // the field values now, just to be sure.
+        checkRtype(returnType);
+        checkPtypes(parameterArray);
+
+        parameterArray = parameterArray.clone();  // make sure it is unshared
         MethodType_init(returnType, parameterArray);
     }
 
-    // Initialization of state for deserialization only
+    /**
+     * For serialization only.
+     * Sets the final fields to null, pending {@code Unsafe.putObject}.
+     */
+    private MethodType() {
+        this.rtype = null;
+        this.ptypes = null;
+    }
     private void MethodType_init(Class<?> rtype, Class<?>[] ptypes) {
         // In order to communicate these values to readResolve, we must
         // store them into the implementation-specific final fields.
@@ -1187,14 +1196,9 @@ s.writeObject(this.parameterArray());
      */
     private Object readResolve() {
         // Do not use a trusted path for deserialization:
-        //    return makeImpl(rtype, ptypes, true);
+        //return makeImpl(rtype, ptypes, true);
         // Verify all operands, and make sure ptypes is unshared:
-        try {
-            return methodType(rtype, ptypes);
-        } finally {
-            // Re-assign defaults in case this object escapes
-            MethodType_init(void.class, NO_PTYPES);
-        }
+        return methodType(rtype, ptypes);
     }
 
     /**
