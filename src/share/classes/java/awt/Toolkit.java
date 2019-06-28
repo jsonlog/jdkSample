@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2017, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -1656,7 +1656,9 @@ public abstract class Toolkit {
                 try {
                     resources =
                         ResourceBundle.getBundle("sun.awt.resources.awt",
-                                                 CoreResourceBundleControl.getRBControlInstance());
+                                Locale.getDefault(),
+                                ClassLoader.getSystemClassLoader(),
+                                CoreResourceBundleControl.getRBControlInstance());
                 } catch (MissingResourceException e) {
                     // No resource file; defaults will be used.
                 }

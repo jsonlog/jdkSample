@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -59,5 +59,13 @@ class JavaUtilJarAccessImpl implements JavaUtilJarAccess {
 
     public List<Object> getManifestDigests(JarFile jar) {
         return jar.getManifestDigests();
+    }
+
+    public Attributes getTrustedAttributes(Manifest man, String name) {
+        return man.getTrustedAttributes(name);
+    }
+
+    public void ensureInitialization(JarFile jar) {
+        jar.ensureInitialization();
     }
 }

@@ -376,6 +376,10 @@ class DirectShortBufferRS
 
 
 
+
+
+
+
         throw new ReadOnlyBufferException();
 
     }

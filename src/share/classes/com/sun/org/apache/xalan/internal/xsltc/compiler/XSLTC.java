@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 2012, 2017, Oracle and/or its affiliates. All rights reserved.
  */
 /*
- * Copyright 2001-2004 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,16 +17,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * $Id: XSLTC.java,v 1.2.4.1 2005/09/05 09:51:38 pvedula Exp $
- */
 
 package com.sun.org.apache.xalan.internal.xsltc.compiler;
 
 import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import com.sun.org.apache.xalan.internal.XalanConstants;
-import com.sun.org.apache.xalan.internal.utils.FeatureManager;
-import com.sun.org.apache.xalan.internal.utils.FeatureManager.Feature;
 import com.sun.org.apache.xalan.internal.utils.SecuritySupport;
 import com.sun.org.apache.xalan.internal.utils.XMLSecurityManager;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.util.ErrorMsg;
@@ -39,13 +34,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
@@ -53,6 +46,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import javax.xml.XMLConstants;
+import jdk.xml.internal.JdkXmlFeatures;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
@@ -90,14 +84,14 @@ public final class XSLTC {
     // Name index tables
     private int       _nextGType;  // Next available element type
     private Vector    _namesIndex; // Index of all registered QNames
-    private Hashtable _elements;   // Hashtable of all registered elements
-    private Hashtable _attributes; // Hashtable of all registered attributes
+    private Map<String, Integer> _elements;   // Map of all registered elements
+    private Map<String, Integer> _attributes; // Map of all registered attributes
 
     // Namespace index tables
     private int       _nextNSType; // Next available namespace type
     private Vector    _namespaceIndex; // Index of all registered namespaces
-    private Hashtable _namespaces; // Hashtable of all registered namespaces
-    private Hashtable _namespacePrefixes;// Hashtable of all registered namespace prefixes
+    private Map<String, Integer> _namespaces; // Map of all registered namespaces
+    private Map<String, Integer> _namespacePrefixes;// Map of all registered namespace prefixes
 
 
     // All literal text in the stylesheet
@@ -139,7 +133,7 @@ public final class XSLTC {
      */
     private boolean _isSecureProcessing = false;
 
-    private boolean _useServicesMechanism = true;
+    private boolean _overrideDefaultParser;
 
     /**
      * protocols allowed for external references set by the stylesheet processing instruction, Import and Include element.
@@ -152,7 +146,7 @@ public final class XSLTC {
 
     private XMLSecurityManager _xmlSecurityManager;
 
-    private final FeatureManager _featureManager;
+    private final JdkXmlFeatures _xmlFeatures;
 
     /**
     *  Extension function class loader variables
@@ -169,9 +163,11 @@ public final class XSLTC {
     /**
      * XSLTC compiler constructor
      */
-    public XSLTC(boolean useServicesMechanism, FeatureManager featureManager) {
-        _parser = new Parser(this, useServicesMechanism);
-        _featureManager = featureManager;
+    public XSLTC(JdkXmlFeatures featureManager) {
+        _overrideDefaultParser = featureManager.getFeature(
+                JdkXmlFeatures.XmlFeature.JDK_OVERRIDE_PARSER);
+        _parser = new Parser(this, _overrideDefaultParser);
+        _xmlFeatures = featureManager;
         _extensionClassLoader = null;
         _externalExtensionFunctions = new HashMap<>();
     }
@@ -189,27 +185,14 @@ public final class XSLTC {
     public boolean isSecureProcessing() {
         return _isSecureProcessing;
     }
-    /**
-     * Return the state of the services mechanism feature.
-     */
-    public boolean useServicesMechnism() {
-        return _useServicesMechanism;
-    }
-
-    /**
-     * Set the state of the services mechanism feature.
-     */
-    public void setServicesMechnism(boolean flag) {
-        _useServicesMechanism = flag;
-    }
 
      /**
      * Return the value of the specified feature
      * @param name name of the feature
      * @return true if the feature is enabled, false otherwise
      */
-    public boolean getFeature(Feature name) {
-        return _featureManager.isFeatureEnabled(name);
+    public boolean getFeature(JdkXmlFeatures.XmlFeature name) {
+        return _xmlFeatures.getFeature(name);
     }
 
     /**
@@ -286,7 +269,7 @@ public final class XSLTC {
     }
 
     /*
-     * Function loads an external extension functions.
+     * Function loads an external extension function.
      * The filtering of function types (external,internal) takes place in FunctionCall class
      *
      */
@@ -319,13 +302,13 @@ public final class XSLTC {
      */
     private void reset() {
         _nextGType      = DTM.NTYPES;
-        _elements       = new Hashtable();
-        _attributes     = new Hashtable();
-        _namespaces     = new Hashtable();
+        _elements       = new HashMap<>();
+        _attributes     = new HashMap<>();
+        _namespaces     = new HashMap<>();
         _namespaces.put("",new Integer(_nextNSType));
         _namesIndex     = new Vector(128);
         _namespaceIndex = new Vector(32);
-        _namespacePrefixes = new Hashtable();
+        _namespacePrefixes = new HashMap<>();
         _stylesheet     = null;
         _parser.init();
         //_variableSerial     = 1;
@@ -601,18 +584,18 @@ public final class XSLTC {
     }
 
     /**
-     * Get a Vector containing all compile error messages
-     * @return A Vector containing all compile error messages
+     * Get a list of all compile error messages
+     * @return A List containing all compile error messages
      */
-    public Vector getErrors() {
+    public ArrayList<ErrorMsg> getErrors() {
         return _parser.getErrors();
     }
 
     /**
-     * Get a Vector containing all compile warning messages
-     * @return A Vector containing all compile error messages
+     * Get a list of all compile warning messages
+     * @return A List containing all compile error messages
      */
-    public Vector getWarnings() {
+    public ArrayList<ErrorMsg> getWarnings() {
         return _parser.getWarnings();
     }
 
@@ -765,9 +748,9 @@ public final class XSLTC {
      * DOM attribute types at run-time.
      */
     public int registerAttribute(QName name) {
-        Integer code = (Integer)_attributes.get(name.toString());
+        Integer code = _attributes.get(name.toString());
         if (code == null) {
-            code = new Integer(_nextGType++);
+            code = _nextGType++;
             _attributes.put(name.toString(), code);
             final String uri = name.getNamespace();
             final String local = "@"+name.getLocalPart();
@@ -788,9 +771,9 @@ public final class XSLTC {
      */
     public int registerElement(QName name) {
         // Register element (full QName)
-        Integer code = (Integer)_elements.get(name.toString());
+        Integer code = _elements.get(name.toString());
         if (code == null) {
-            _elements.put(name.toString(), code = new Integer(_nextGType++));
+            _elements.put(name.toString(), code = _nextGType++);
             _namesIndex.addElement(name.toString());
         }
         if (name.getLocalPart().equals("*")) {
@@ -806,9 +789,9 @@ public final class XSLTC {
 
     public int registerNamespacePrefix(QName name) {
 
-    Integer code = (Integer)_namespacePrefixes.get(name.toString());
+    Integer code = _namespacePrefixes.get(name.toString());
     if (code == null) {
-        code = new Integer(_nextGType++);
+        code = _nextGType++;
         _namespacePrefixes.put(name.toString(), code);
         final String uri = name.getNamespace();
         if ((uri != null) && (!uri.equals(""))){
@@ -826,9 +809,9 @@ public final class XSLTC {
      * DOM namespace types at run-time.
      */
     public int registerNamespace(String namespaceURI) {
-        Integer code = (Integer)_namespaces.get(namespaceURI);
+        Integer code = _namespaces.get(namespaceURI);
         if (code == null) {
-            code = new Integer(_nextNSType++);
+            code = _nextNSType++;
             _namespaces.put(namespaceURI,code);
             _namespaceIndex.addElement(namespaceURI);
         }

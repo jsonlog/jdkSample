@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2015, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -491,7 +491,6 @@ public class JTextArea extends JTextComponent {
      * @exception IllegalArgumentException  if part of the range is an
      *  invalid position in the model
      * @see #insert
-     * @see #replaceRange
      */
     public void replaceRange(String str, int start, int end) {
         if (end < start) {

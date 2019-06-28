@@ -6,7 +6,7 @@ public final class gtk_zh_HK extends ListResourceBundle {
     protected final Object[][] getContents() {
         return new Object[][] {
             { "FileChooser.acceptAllFileFilter.textAndMnemonic", "\u6240\u6709\u6A94\u6848" },
-            { "FileChooser.cancelButton.textAndMnemonic", "\u53D6\u6D88(&C)" },
+            { "FileChooser.cancelButton.textAndMnemonic", "\u53D6\u6D88" },
             { "FileChooser.cancelButtonToolTip.textAndMnemonic", "\u4E2D\u6B62\u6A94\u6848\u9078\u64C7\u5668\u5C0D\u8A71\u65B9\u584A\u3002" },
             { "FileChooser.deleteFileButton.textAndMnemonic", "\u522A\u9664\u6A94\u6848(&L)" },
             { "FileChooser.filesLabel.textAndMnemonic", "\u6A94\u6848(&F)" },
@@ -16,7 +16,7 @@ public final class gtk_zh_HK extends ListResourceBundle {
             { "FileChooser.newFolderDialog.textAndMnemonic", "\u8CC7\u6599\u593E\u540D\u7A31:" },
             { "FileChooser.newFolderNoDirectoryError.textAndMnemonic", "\u5EFA\u7ACB\u76EE\u9304 \"{0}\" \u6642\u767C\u751F\u932F\u8AA4: \u6C92\u6709\u6B64\u6A94\u6848\u6216\u76EE\u9304" },
             { "FileChooser.newFolderNoDirectoryErrorTitle.textAndMnemonic", "\u932F\u8AA4" },
-            { "FileChooser.openButton.textAndMnemonic", "\u78BA\u5B9A(&O)" },
+            { "FileChooser.openButton.textAndMnemonic", "\u78BA\u5B9A" },
             { "FileChooser.openButtonToolTip.textAndMnemonic", "\u958B\u555F\u9078\u53D6\u7684\u6A94\u6848\u3002" },
             { "FileChooser.openDialogTitle.textAndMnemonic", "\u958B\u555F" },
             { "FileChooser.pathLabel.textAndMnemonic", "\u9078\u53D6(&S):" },
@@ -24,7 +24,7 @@ public final class gtk_zh_HK extends ListResourceBundle {
             { "FileChooser.renameFileDialog.textAndMnemonic", "\u5C07\u6A94\u6848 \"{0}\" \u91CD\u65B0\u547D\u540D\u70BA" },
             { "FileChooser.renameFileError.textAndMnemonic", "\u5C07\u6A94\u6848 \"{0}\" \u91CD\u65B0\u547D\u540D\u70BA \"{1}\" \u6642\u51FA\u73FE\u932F\u8AA4" },
             { "FileChooser.renameFileError.titleAndMnemonic", "\u932F\u8AA4" },
-            { "FileChooser.saveButton.textAndMnemonic", "\u78BA\u5B9A(&O)" },
+            { "FileChooser.saveButton.textAndMnemonic", "\u78BA\u5B9A" },
             { "FileChooser.saveButtonToolTip.textAndMnemonic", "\u5132\u5B58\u9078\u53D6\u7684\u6A94\u6848\u3002" },
             { "FileChooser.saveDialogTitle.textAndMnemonic", "\u5132\u5B58" },
             { "GTKColorChooserPanel.blue.textAndMnemonic", "\u85CD(&B):" },

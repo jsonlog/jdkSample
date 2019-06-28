@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2015, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -255,6 +255,13 @@ typedef struct {
 
 #define NULL_CHECK(NC_check_pointer) \
     NULL_CHECK_RETURN_VALUE(NC_check_pointer, )
+
+#define CHECK_EXCEPTION_RETURN() \
+    do { \
+        if ((*env)->ExceptionOccurred(env)) { \
+            return; \
+        } \
+    } while (JNI_FALSE)
 
 /*
  * For JNI calls :

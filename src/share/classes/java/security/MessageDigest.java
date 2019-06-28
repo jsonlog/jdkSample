@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2017, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -59,7 +59,7 @@ import sun.security.util.Debug;
  * and catching the CloneNotSupportedException:
  *
  * <pre>{@code
- * MessageDigest md = MessageDigest.getInstance("SHA");
+ * MessageDigest md = MessageDigest.getInstance("SHA-256");
  *
  * try {
  *     md.update(toChapter1);
@@ -440,6 +440,10 @@ public abstract class MessageDigest extends MessageDigestSpi {
      * @return true if the digests are equal, false otherwise.
      */
     public static boolean isEqual(byte[] digesta, byte[] digestb) {
+        if (digesta == digestb) return true;
+        if (digesta == null || digestb == null) {
+            return false;
+        }
         if (digesta.length != digestb.length) {
             return false;
         }
@@ -463,7 +467,7 @@ public abstract class MessageDigest extends MessageDigestSpi {
     /**
      * Returns a string that identifies the algorithm, independent of
      * implementation details. The name should be a standard
-     * Java Security name (such as "SHA", "MD5", and so on).
+     * Java Security name (such as "SHA-256").
      * See the MessageDigest section in the <a href=
      * "{@docRoot}/../technotes/guides/security/StandardNames.html#MessageDigest">
      * Java Cryptography Architecture Standard Algorithm Name Documentation</a>

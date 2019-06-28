@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2016, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -155,11 +155,12 @@ class SocketInputStream extends FileInputStream
         }
 
         // bounds check
-        if (length <= 0 || off < 0 || off + length > b.length) {
+        if (length <= 0 || off < 0 || length > b.length - off) {
             if (length == 0) {
                 return 0;
             }
-            throw new ArrayIndexOutOfBoundsException();
+            throw new ArrayIndexOutOfBoundsException("length == " + length
+                    + " off == " + off + " buffer length == " + b.length);
         }
 
         boolean gotReset = false;

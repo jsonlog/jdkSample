@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 2011, 2017, Oracle and/or its affiliates. All rights reserved.
  */
 /*
- * Copyright 1999-2004 The Apache Software Foundation.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,17 +17,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * $Id: DTMManager.java,v 1.2.4.1 2005/09/15 08:14:54 suresh_emailid Exp $
- */
 package com.sun.org.apache.xml.internal.dtm;
 
-import com.sun.org.apache.xml.internal.res.XMLErrorResources;
-import com.sun.org.apache.xml.internal.res.XMLMessages;
 import com.sun.org.apache.xml.internal.utils.PrefixResolver;
 import com.sun.org.apache.xml.internal.utils.XMLStringFactory;
-import com.sun.org.apache.xalan.internal.utils.ObjectFactory;
-import com.sun.org.apache.xalan.internal.utils.SecuritySupport;
 
 /**
  * A DTMManager instance can be used to create DTM and
@@ -58,7 +51,7 @@ public abstract class DTMManager
    */
   protected XMLStringFactory m_xsf = null;
 
-  private boolean _useServicesMechanism;
+  private boolean _overrideDefaultParser;
   /**
    * Default constructor is protected on purpose.
    */
@@ -100,11 +93,11 @@ public abstract class DTMManager
    *
    * @return new DTMManager instance, never null.
    *
-   * @throws DTMConfigurationException
+   * @throws DTMException
    * if the implementation is not available or cannot be instantiated.
    */
   public static DTMManager newInstance(XMLStringFactory xsf)
-           throws DTMConfigurationException
+           throws DTMException
   {
       final DTMManager factoryImpl = new com.sun.org.apache.xml.internal.dtm.ref.DTMManagerDefault();
       factoryImpl.setXMLStringFactory(xsf);
@@ -303,32 +296,18 @@ public abstract class DTMManager
     /**
      * Return the state of the services mechanism feature.
      */
-    public boolean useServicesMechnism() {
-        return _useServicesMechanism;
+    public boolean overrideDefaultParser() {
+        return _overrideDefaultParser;
     }
 
     /**
      * Set the state of the services mechanism feature.
      */
-    public void setServicesMechnism(boolean flag) {
-        _useServicesMechanism = flag;
+    public void setOverrideDefaultParser(boolean flag) {
+        _overrideDefaultParser = flag;
     }
 
   // -------------------- private methods --------------------
-
-   /**
-   * Temp debug code - this will be removed after we test everything
-   */
-  private static boolean debug;
-
-  static
-  {
-    try
-    {
-      debug = SecuritySupport.getSystemProperty("dtm.debug") != null;
-    }
-    catch (SecurityException ex){}
-  }
 
   /** This value, set at compile time, controls how many bits of the
    * DTM node identifier numbers are used to identify a node within a
@@ -395,47 +374,4 @@ public abstract class DTMManager
   {
     return IDENT_NODE_DEFAULT;
   }
-
-    //
-    // Classes
-    //
-
-    /**
-     * A configuration error.
-     * Originally in ObjectFactory. This is the only portion used in this package
-     */
-    static class ConfigurationError
-        extends Error {
-                static final long serialVersionUID = 5122054096615067992L;
-        //
-        // Data
-        //
-
-        /** Exception. */
-        private Exception exception;
-
-        //
-        // Constructors
-        //
-
-        /**
-         * Construct a new instance with the specified detail string and
-         * exception.
-         */
-        ConfigurationError(String msg, Exception x) {
-            super(msg);
-            this.exception = x;
-        } // <init>(String,Exception)
-
-        //
-        // Public methods
-        //
-
-        /** Returns the exception associated to this error. */
-        Exception getException() {
-            return exception;
-        } // getException():Exception
-
-    } // class ConfigurationError
-
 }

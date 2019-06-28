@@ -242,7 +242,7 @@ class DirectByteBuffer
     }
 
     private long ix(int i) {
-        return address + (i << 0);
+        return address + ((long)i << 0);
     }
 
     public byte get() {
@@ -261,7 +261,7 @@ class DirectByteBuffer
 
     public ByteBuffer get(byte[] dst, int offset, int length) {
 
-        if ((length << 0) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
+        if (((long)length << 0) > Bits.JNI_COPY_TO_ARRAY_THRESHOLD) {
             checkBounds(offset, length, dst.length);
             int pos = position();
             int lim = limit();
@@ -278,8 +278,8 @@ class DirectByteBuffer
 
 
                 Bits.copyToArray(ix(pos), dst, arrayBaseOffset,
-                                 offset << 0,
-                                 length << 0);
+                                 (long)offset << 0,
+                                 (long)length << 0);
             position(pos + length);
         } else {
             super.get(dst, offset, length);
@@ -329,7 +329,7 @@ class DirectByteBuffer
 
             if (srem > rem)
                 throw new BufferOverflowException();
-            unsafe.copyMemory(sb.ix(spos), ix(pos), srem << 0);
+            unsafe.copyMemory(sb.ix(spos), ix(pos), (long)srem << 0);
             sb.position(spos + srem);
             position(pos + srem);
         } else if (src.hb != null) {
@@ -353,7 +353,7 @@ class DirectByteBuffer
 
     public ByteBuffer put(byte[] src, int offset, int length) {
 
-        if ((length << 0) > Bits.JNI_COPY_FROM_ARRAY_THRESHOLD) {
+        if (((long)length << 0) > Bits.JNI_COPY_FROM_ARRAY_THRESHOLD) {
             checkBounds(offset, length, src.length);
             int pos = position();
             int lim = limit();
@@ -368,8 +368,12 @@ class DirectByteBuffer
 
 
 
-                Bits.copyFromArray(src, arrayBaseOffset, offset << 0,
-                                   ix(pos), length << 0);
+
+
+                Bits.copyFromArray(src, arrayBaseOffset,
+                                   (long)offset << 0,
+                                   ix(pos),
+                                   (long)length << 0);
             position(pos + length);
         } else {
             super.put(src, offset, length);
@@ -387,7 +391,7 @@ class DirectByteBuffer
         assert (pos <= lim);
         int rem = (pos <= lim ? lim - pos : 0);
 
-        unsafe.copyMemory(ix(pos), ix(0), rem << 0);
+        unsafe.copyMemory(ix(pos), ix(0), (long)rem << 0);
         position(rem);
         limit(capacity());
         discardMark();

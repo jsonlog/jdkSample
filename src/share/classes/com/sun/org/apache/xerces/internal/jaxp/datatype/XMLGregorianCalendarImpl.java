@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2004, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -189,6 +189,7 @@ import com.sun.org.apache.xerces.internal.utils.SecuritySupport;
  * @version $Revision: 1.14 $, $Date: 2010-11-10 07:41:41 $
  * @see javax.xml.datatype.Duration
  * @since 1.5
+ * @LastModified: June 2018
  */
 
 public class XMLGregorianCalendarImpl
@@ -2671,6 +2672,9 @@ public class XMLGregorianCalendarImpl
             customTimezoneId.append(sign);
             customTimezoneId.append(hour);
             if (minutes != 0) {
+                if (minutes < 10) {
+                    customTimezoneId.append('0');
+                }
                 customTimezoneId.append(minutes);
             }
             result = TimeZone.getTimeZone(customTimezoneId.toString());
@@ -2727,7 +2731,7 @@ public class XMLGregorianCalendarImpl
             if ((fractional.compareTo(DECIMAL_ZERO) < 0) ||
                     (fractional.compareTo(DECIMAL_ONE) > 0)) {
                 throw new IllegalArgumentException(DatatypeMessageFormatter.formatMessage(null,
-                        "InvalidFractional", new Object[]{fractional}));
+                        "InvalidFractional", new Object[]{fractional.toString()}));
             }
         }
         this.fractionalSecond = fractional;

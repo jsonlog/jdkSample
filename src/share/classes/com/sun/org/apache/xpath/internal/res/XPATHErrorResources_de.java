@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /*
@@ -429,7 +429,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
      "ERROR. Unbekannter Vorgangscode: {0}"},
 
   { ER_EXTRA_ILLEGAL_TOKENS,
-     "Zus\u00E4tzliche ung\u00FCltige Tokens: {0}"},
+     "Zus\u00E4tzliche unzul\u00E4ssige Tokens: {0}"},
 
   { ER_EXPECTED_DOUBLE_QUOTE,
       "Literal in falschen Anf\u00FChrungszeichen... Doppelte Anf\u00FChrungszeichen erwartet."},
@@ -456,10 +456,10 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
       "\",\" gefunden, aber kein folgendes Argument vorhanden."},
 
   { ER_PREDICATE_ILLEGAL_SYNTAX,
-      "\"..[predicate]\" oder \".[predicate]\" ist ung\u00FCltige Syntax. Verwenden Sie stattdessen \"self::node()[predicate]\"."},
+      "\"..[predicate]\" oder \".[predicate]\" ist unzul\u00E4ssige Syntax. Verwenden Sie stattdessen \"self::node()[predicate]\"."},
 
   { ER_ILLEGAL_AXIS_NAME,
-     "Ung\u00FCltiger Achsenname: {0}"},
+     "Unzul\u00E4ssiger Achsenname: {0}"},
 
   { ER_UNKNOWN_NODETYPE,
      "Unbekannter Knotentyp: {0}"},
@@ -483,7 +483,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
      "Fehler aufgetreten."},
 
   { ER_ILLEGAL_VARIABLE_REFERENCE,
-      "VariableReference au\u00DFerhalb des Kontextes oder ohne Definition f\u00FCr Variable angegeben. Name = {0}"},
+      "VariableReference au\u00DFerhalb des Kontexts oder ohne Definition f\u00FCr Variable angegeben. Name = {0}"},
 
   { ER_AXES_NOT_ALLOWED,
       "Nur \"child::\"- und \"attribute::\"-Achsen sind in Vergleichsmustern zul\u00E4ssig. Betreffende Achsen = {0}"},
@@ -622,10 +622,10 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
        "NodeSet kann nicht zu einem vorherigen Knoten iterieren."},
 
   { ER_NODESETDTM_CANNOT_INDEX,
-       "NodeSetDTM kann keine Indizierungs- oder Z\u00E4hlfunktionen ausf\u00FChren."},
+       "NodeSetDTM kann keine Indexierungs- oder Z\u00E4hlfunktionen ausf\u00FChren."},
 
   { ER_NODESET_CANNOT_INDEX,
-       "NodeSet kann keine Indizierungs- oder Z\u00E4hlfunktionen ausf\u00FChren."},
+       "NodeSet kann keine Indexierungs- oder Z\u00E4hlfunktionen ausf\u00FChren."},
 
   { ER_CANNOT_CALL_SETSHOULDCACHENODE,
        "setShouldCacheNodes kann nicht aufgerufen werden, nachdem nextNode aufgerufen wurde."},
@@ -855,7 +855,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
       "Option \"-E\" nicht unterst\u00FCtzt f\u00FCr DTM-Parser"},
 
   { WG_ILLEGAL_VARIABLE_REFERENCE,
-      "VariableReference au\u00DFerhalb des Kontextes oder ohne Definition f\u00FCr Variable angegeben. Name = {0}"},
+      "VariableReference au\u00DFerhalb des Kontexts oder ohne Definition f\u00FCr Variable angegeben. Name = {0}"},
 
   { WG_UNSUPPORTED_ENCODING,
      "Nicht unterst\u00FCtzte Codierung: {0}"},

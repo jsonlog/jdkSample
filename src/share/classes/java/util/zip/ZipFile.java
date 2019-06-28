@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2015, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -46,7 +46,6 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static java.util.zip.ZipConstants64.*;
-import static java.util.zip.ZipUtils.*;
 
 /**
  * This class is used to read entries from a zip file.
@@ -59,7 +58,7 @@ import static java.util.zip.ZipUtils.*;
  */
 public
 class ZipFile implements ZipConstants, Closeable {
-    private long jzfile;           // address of jzfile data
+    private long jzfile;  // address of jzfile data
     private final String name;     // zip file name
     private final int total;       // total number of entries
     private final boolean locsig;  // if zip file starts with LOCSIG (usually true)
@@ -91,12 +90,18 @@ class ZipFile implements ZipConstants, Closeable {
 
     private static final boolean usemmap;
 
+    private static final boolean ensuretrailingslash;
+
     static {
         // A system prpperty to disable mmap use to avoid vm crash when
         // in-use zip file is accidently overwritten by others.
         String prop = sun.misc.VM.getSavedProperty("sun.zip.disableMemoryMapping");
         usemmap = (prop == null ||
                    !(prop.length() == 0 || prop.equalsIgnoreCase("true")));
+
+        // see getEntry() for details
+        prop = sun.misc.VM.getSavedProperty("jdk.util.zip.ensureTrailingSlash");
+        ensuretrailingslash = prop == null || !prop.equalsIgnoreCase("false");
     }
 
     /**
@@ -310,7 +315,16 @@ class ZipFile implements ZipConstants, Closeable {
             ensureOpen();
             jzentry = getEntry(jzfile, zc.getBytes(name), true);
             if (jzentry != 0) {
-                ZipEntry ze = getZipEntry(name, jzentry);
+                // If no entry is found for the specified 'name' and
+                // the 'name' does not end with a forward slash '/',
+                // the implementation tries to find the entry with a
+                // slash '/' appended to the end of the 'name', before
+                // returning null. When such entry is found, the name
+                // that actually is found (with a slash '/' attached)
+                // is used
+                // (disabled if jdk.util.zip.ensureTrailingSlash=false)
+                ZipEntry ze = ensuretrailingslash ? getZipEntry(null, jzentry)
+                                                  : getZipEntry(name, jzentry);
                 freeEntry(jzfile, jzentry);
                 return ze;
             }
@@ -561,13 +575,15 @@ class ZipFile implements ZipConstants, Closeable {
             e.name = name;
         } else {
             byte[] bname = getEntryBytes(jzentry, JZENTRY_NAME);
-            if (!zc.isUTF8() && (e.flag & EFS) != 0) {
+            if (bname == null) {
+                e.name = "";             // length 0 empty name
+            } else if (!zc.isUTF8() && (e.flag & EFS) != 0) {
                 e.name = zc.toStringUTF8(bname, bname.length);
             } else {
                 e.name = zc.toString(bname, bname.length);
             }
         }
-        e.time = dosToJavaTime(getEntryTime(jzentry));
+        e.xdostime = getEntryTime(jzentry);
         e.crc = getEntryCrc(jzentry);
         e.size = getEntrySize(jzentry);
         e.csize = getEntryCSize(jzentry);
@@ -686,7 +702,7 @@ class ZipFile implements ZipConstants, Closeable {
      * (possibly compressed) zip file entry.
      */
    private class ZipFileInputStream extends InputStream {
-        private volatile boolean closeRequested = false;
+        private volatile boolean zfisCloseRequested = false;
         protected long jzentry; // address of jzentry data
         private   long pos;     // current position within entry data
         protected long rem;     // number of remaining bytes within entry
@@ -713,6 +729,7 @@ class ZipFile implements ZipConstants, Closeable {
                     len = (int) rem;
                 }
 
+                // Check if ZipFile open
                 ensureOpenOrZipException();
                 len = ZipFile.read(ZipFile.this.jzfile, jzentry, pos, b,
                                    off, len);
@@ -756,9 +773,9 @@ class ZipFile implements ZipConstants, Closeable {
         }
 
         public void close() {
-            if (closeRequested)
+            if (zfisCloseRequested)
                 return;
-            closeRequested = true;
+            zfisCloseRequested = true;
 
             rem = 0;
             synchronized (ZipFile.this) {

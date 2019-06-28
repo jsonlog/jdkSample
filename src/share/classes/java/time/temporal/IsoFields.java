@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -638,7 +638,7 @@ public final class IsoFields {
 
     //-----------------------------------------------------------------------
     /**
-     * Implementation of the period unit.
+     * Implementation of the unit.
      */
     private static enum Unit implements TemporalUnit {
 

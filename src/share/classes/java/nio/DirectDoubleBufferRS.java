@@ -376,6 +376,10 @@ class DirectDoubleBufferRS
 
 
 
+
+
+
+
         throw new ReadOnlyBufferException();
 
     }

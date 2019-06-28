@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /*
@@ -3145,11 +3145,7 @@ public class SAX2DTM2 extends SAX2DTM
                                   m_data.elementAt(-dataIndex+1));
       }
     }
-    else if (DTM.ELEMENT_NODE == type)
-    {
-      return getStringValueX(nodeHandle);
-    }
-    else if (DTM.DOCUMENT_FRAGMENT_NODE == type
+    else if (DTM.ELEMENT_NODE == type || DTM.DOCUMENT_FRAGMENT_NODE == type
              || DTM.DOCUMENT_NODE == type)
     {
       return null;

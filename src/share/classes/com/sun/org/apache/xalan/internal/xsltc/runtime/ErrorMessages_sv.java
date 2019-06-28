@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /*
@@ -91,14 +91,14 @@ public class ErrorMessages_sv extends ListResourceBundle {
          * is a class name.  Used for internal errors in the processor.
          */
         {BasisLibrary.RUN_TIME_INTERNAL_ERR,
-        "Internt k\u00F6rningsfel i ''{0}''"},
+        "Internt exekveringsfel i ''{0}''"},
 
         /*
          * Note to translators:  <xsl:copy> is a keyword that should not be
          * translated.
          */
         {BasisLibrary.RUN_TIME_COPY_ERR,
-        "K\u00F6rningsfel vid k\u00F6rning av <xsl:copy>."},
+        "Exekveringsexekveringsfel av <xsl:copy>."},
 
         /*
          * Note to translators:  The substitution text refers to data types.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /*
@@ -230,7 +230,7 @@ public class XMLErrorResources_sv extends ListResourceBundle
       "Axeltravers underst\u00F6ds inte: {0}"},
 
     { ER_NO_DTMIDS_AVAIL,
-      "Inga fler DTM-ID:n \u00E4r tillg\u00E4ngliga"},
+      "Inga fler DTM-id:n \u00E4r tillg\u00E4ngliga"},
 
     { ER_NOT_SUPPORTED,
       "Underst\u00F6ds inte: {0}"},
@@ -375,8 +375,8 @@ public class XMLErrorResources_sv extends ListResourceBundle
 
     { "BAD_CODE", "Parameter f\u00F6r createMessage ligger utanf\u00F6r gr\u00E4nsv\u00E4rdet"},
     { "FORMAT_FAILED", "Undantag utl\u00F6st vid messageFormat-anrop"},
-    { "line", "Rad #"},
-    { "column","Kolumn #"},
+    { "line", "Rad nr"},
+    { "column","Kolumn nr"},
 
     {ER_SERIALIZER_NOT_CONTENTHANDLER,
       "Serializerklassen ''{0}'' implementerar inte org.xml.sax.ContentHandler."},

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2017, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -515,7 +515,7 @@ public class BasicAttribute implements Attribute {
             throws java.io.IOException, ClassNotFoundException {
         s.defaultReadObject();  // read in the attrID
         int n = s.readInt();    // number of values
-        values = new Vector<>(n);
+        values = new Vector<>(Math.min(1024, n));
         while (--n >= 0) {
             values.addElement(s.readObject());
         }

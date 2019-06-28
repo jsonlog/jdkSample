@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -180,7 +180,7 @@ public interface TemporalAccessor {
     /**
      * Gets the value of the specified field as an {@code int}.
      * <p>
-     * This queries the date-time for the value for the specified field.
+     * This queries the date-time for the value of the specified field.
      * The returned value will always be within the valid range of values for the field.
      * If the date-time cannot return the value, because the field is unsupported or for
      * some other reason, an exception will be thrown.
@@ -229,7 +229,7 @@ public interface TemporalAccessor {
     /**
      * Gets the value of the specified field as a {@code long}.
      * <p>
-     * This queries the date-time for the value for the specified field.
+     * This queries the date-time for the value of the specified field.
      * The returned value may be outside the valid range of values for the field.
      * If the date-time cannot return the value, because the field is unsupported or for
      * some other reason, an exception will be thrown.

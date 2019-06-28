@@ -6,7 +6,7 @@ public final class gtk_de extends ListResourceBundle {
     protected final Object[][] getContents() {
         return new Object[][] {
             { "FileChooser.acceptAllFileFilter.textAndMnemonic", "Alle Dateien" },
-            { "FileChooser.cancelButton.textAndMnemonic", "&Abbrechen" },
+            { "FileChooser.cancelButton.textAndMnemonic", "Abbrechen" },
             { "FileChooser.cancelButtonToolTip.textAndMnemonic", "Dialogfeld f\u00FCr Dateiauswahl schlie\u00DFen." },
             { "FileChooser.deleteFileButton.textAndMnemonic", "Datei &l\u00F6schen" },
             { "FileChooser.filesLabel.textAndMnemonic", "&Dateien" },
@@ -16,7 +16,7 @@ public final class gtk_de extends ListResourceBundle {
             { "FileChooser.newFolderDialog.textAndMnemonic", "Ordnername:" },
             { "FileChooser.newFolderNoDirectoryError.textAndMnemonic", "Fehler beim Erstellen von Verzeichnis \"{0}\": Datei oder Verzeichnis nicht vorhanden" },
             { "FileChooser.newFolderNoDirectoryErrorTitle.textAndMnemonic", "Fehler" },
-            { "FileChooser.openButton.textAndMnemonic", "&OK" },
+            { "FileChooser.openButton.textAndMnemonic", "OK" },
             { "FileChooser.openButtonToolTip.textAndMnemonic", "Ausgew\u00E4hlte Datei \u00F6ffnen." },
             { "FileChooser.openDialogTitle.textAndMnemonic", "\u00D6ffnen" },
             { "FileChooser.pathLabel.textAndMnemonic", "Aus&wahl:" },
@@ -24,7 +24,7 @@ public final class gtk_de extends ListResourceBundle {
             { "FileChooser.renameFileDialog.textAndMnemonic", "Datei \"{0}\" umbenennen in" },
             { "FileChooser.renameFileError.textAndMnemonic", "Fehler beim Umbenennen der Datei \"{0}\" in \"{1}\"" },
             { "FileChooser.renameFileError.titleAndMnemonic", "Fehler" },
-            { "FileChooser.saveButton.textAndMnemonic", "&OK" },
+            { "FileChooser.saveButton.textAndMnemonic", "OK" },
             { "FileChooser.saveButtonToolTip.textAndMnemonic", "Ausgew\u00E4hlte Datei speichern." },
             { "FileChooser.saveDialogTitle.textAndMnemonic", "Speichern" },
             { "GTKColorChooserPanel.blue.textAndMnemonic", "&Blau:" },

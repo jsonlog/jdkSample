@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -679,10 +679,14 @@ public class X509CRLSelector implements CRLSelector {
                 nowPlusSkew = new Date(dateAndTime.getTime() + skew);
                 nowMinusSkew = new Date(dateAndTime.getTime() - skew);
             }
+
+            // Check that the test date is within the validity interval:
+            //   [ thisUpdate - MAX_CLOCK_SKEW,
+            //     nextUpdate + MAX_CLOCK_SKEW ]
             if (nowMinusSkew.after(nextUpdate)
                 || nowPlusSkew.before(crlThisUpdate)) {
                 if (debug != null) {
-                    debug.println("X509CRLSelector.match: update out of range");
+                    debug.println("X509CRLSelector.match: update out-of-range");
                 }
                 return false;
             }

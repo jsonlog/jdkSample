@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2002, 2015, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -538,6 +538,13 @@ public abstract class ClientNotifForwarder {
                 currentFetchThread = null;
             }
 
+            if (nr == null) {
+                if (logger.traceOn()) {
+                    logger.trace("NotifFetcher-run",
+                            "Recieved null object as notifs, stops fetching because the "
+                                    + "notification server is terminated.");
+                }
+            }
             if (nr == null || shouldStop()) {
                 // tell that the thread is REALLY stopped
                 setState(STOPPED);
@@ -657,7 +664,7 @@ public abstract class ClientNotifForwarder {
                     return null;
                 }
 
-                if (shouldStop())
+                if (shouldStop() || nr == null)
                     return null;
 
                 startSequenceNumber = nr.getNextSequenceNumber();

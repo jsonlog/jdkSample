@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1999, 2017, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -1411,6 +1411,8 @@ public final class Pattern
         String result;
 
         i++;
+        if (i == normalizedPattern.length())
+            throw error("Unclosed character class");
         charClass.append("[");
         while(true) {
             int c = normalizedPattern.codePointAt(i);

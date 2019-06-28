@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
- * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
  */
 /*
- * Copyright 1999-2005 The Apache Software Foundation.
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,16 +17,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/*
- * $Id: TreeWalker.java,v 1.1.4.1 2005/09/08 10:58:44 suresh_emailid Exp $
- */
+
 package com.sun.org.apache.xml.internal.serializer;
 
-import com.sun.org.apache.xalan.internal.utils.SecuritySupport;
-import java.io.File;
-
-import com.sun.org.apache.xml.internal.serializer.utils.AttList;
-import com.sun.org.apache.xml.internal.serializer.utils.DOM2Helper;
+import com.sun.org.apache.xml.internal.utils.AttList;
+import com.sun.org.apache.xml.internal.utils.DOM2Helper;
+import javax.xml.transform.Result;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
 import org.w3c.dom.EntityReference;
@@ -34,7 +30,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
-
 import org.xml.sax.ContentHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.ext.LexicalHandler;
@@ -61,12 +56,6 @@ public final class TreeWalker
    */
   final private SerializationHandler m_Serializer;
 
-  // ARGHH!!  JAXP Uses Xerces without setting the namespace processing to ON!
-  // DOM2Helper m_dh = new DOM2Helper();
-
-  /** DomHelper for this TreeWalker          */
-  final protected DOM2Helper m_dh;
-
   /** Locator object for this TreeWalker          */
   final private LocatorImpl m_locator = new LocatorImpl();
 
@@ -81,7 +70,7 @@ public final class TreeWalker
   }
 
   public TreeWalker(ContentHandler ch) {
-      this(ch,null);
+      this(ch, null);
   }
   /**
    * Constructor.
@@ -94,34 +83,15 @@ public final class TreeWalker
       m_contentHandler = contentHandler;
       if (m_contentHandler instanceof SerializationHandler) {
           m_Serializer = (SerializationHandler) m_contentHandler;
-      }
-      else
+      } else {
           m_Serializer = null;
+      }
 
       // Set the system ID, if it is given
       m_contentHandler.setDocumentLocator(m_locator);
-      if (systemId != null)
+      if (systemId != null) {
           m_locator.setSystemId(systemId);
-      else {
-          try {
-            // Bug see Bugzilla  26741
-            m_locator.setSystemId(SecuritySupport.getSystemProperty("user.dir") + File.separator + "dummy.xsl");
-           }
-           catch (SecurityException se) {// user.dir not accessible from applet
-           }
       }
-
-      // Set the document locator
-                if (m_contentHandler != null)
-                        m_contentHandler.setDocumentLocator(m_locator);
-                try {
-                   // Bug see Bugzilla  26741
-                  m_locator.setSystemId(SecuritySupport.getSystemProperty("user.dir") + File.separator + "dummy.xsl");
-                }
-                catch (SecurityException se){// user.dir not accessible from applet
-
-    }
-    m_dh = new DOM2Helper();
   }
 
   /**
@@ -230,7 +200,7 @@ public final class TreeWalker
     this.m_contentHandler.endDocument();
   }
 
-  /** Flag indicating whether following text to be processed is raw text          */
+  // Flag indicating whether following text to be processed is raw text
   boolean nextIsRaw = false;
 
   /**
@@ -334,7 +304,6 @@ public final class TreeWalker
         final int colon = attrName.indexOf(':');
         final String prefix;
 
-        // System.out.println("TreeWalker#startNode: attr["+i+"] = "+attrName+", "+attr.getNodeValue());
         if (attrName.equals("xmlns") || attrName.startsWith("xmlns:"))
         {
           // Use "" instead of null, as Xerces likes "" for the
@@ -356,13 +325,13 @@ public final class TreeWalker
         }
       }
 
-      String ns = m_dh.getNamespaceOfNode(node);
+      String ns = DOM2Helper.getNamespaceOfNode(node);
       if(null == ns)
         ns = "";
       this.m_contentHandler.startElement(ns,
-                                         m_dh.getLocalNameOfNode(node),
+                                         DOM2Helper.getLocalNameOfNode(node),
                                          node.getNodeName(),
-                                         new AttList(atts, m_dh));
+                                         new AttList(atts));
       break;
     case Node.PROCESSING_INSTRUCTION_NODE :
     {
@@ -410,9 +379,9 @@ public final class TreeWalker
       {
         nextIsRaw = false;
 
-        m_contentHandler.processingInstruction(javax.xml.transform.Result.PI_DISABLE_OUTPUT_ESCAPING, "");
+        m_contentHandler.processingInstruction(Result.PI_DISABLE_OUTPUT_ESCAPING, "");
         dispatachChars(node);
-        m_contentHandler.processingInstruction(javax.xml.transform.Result.PI_ENABLE_OUTPUT_ESCAPING, "");
+        m_contentHandler.processingInstruction(Result.PI_ENABLE_OUTPUT_ESCAPING, "");
       }
       else
       {
@@ -457,12 +426,12 @@ public final class TreeWalker
       break;
 
     case Node.ELEMENT_NODE :
-      String ns = m_dh.getNamespaceOfNode(node);
+      String ns = DOM2Helper.getNamespaceOfNode(node);
       if(null == ns)
         ns = "";
       this.m_contentHandler.endElement(ns,
-                                         m_dh.getLocalNameOfNode(node),
-                                         node.getNodeName());
+              DOM2Helper.getLocalNameOfNode(node),
+              node.getNodeName());
 
       if (m_Serializer == null) {
       // Don't bother with endPrefixMapping calls if the ContentHandler is a

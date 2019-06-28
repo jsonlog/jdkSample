@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2007, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 /*
@@ -429,7 +429,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
      "FEL! Ok\u00E4nd op-kod: {0}"},
 
   { ER_EXTRA_ILLEGAL_TOKENS,
-     "Extra otill\u00E5tna tecken: {0}"},
+     "Extra otill\u00E5tna token: {0}"},
 
   { ER_EXPECTED_DOUBLE_QUOTE,
       "Litteral omges av fel sorts citattecken... dubbla citattecken f\u00F6rv\u00E4ntade!"},
@@ -480,7 +480,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
       "FEL! Hittade inte ENDOP efter OP_LOCATIONPATH"},
 
   { ER_ERROR_OCCURED,
-     "Fel intr\u00E4ffade!"},
+     "Ett fel har intr\u00E4ffat!"},
 
   { ER_ILLEGAL_VARIABLE_REFERENCE,
       "VariableReference angiven f\u00F6r variabel som \u00E4r utanf\u00F6r kontext eller som saknar definition! Namn = {0}"},
@@ -546,7 +546,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
      "I XPath.readObject: {0}"},
 
   { ER_FUNCTION_TOKEN_NOT_FOUND,
-      "funktionstecken hittades inte."},
+      "funktionstoken hittades inte."},
 
   { ER_CANNOT_DEAL_XPATH_TYPE,
        "Kan inte hantera XPath-typ: {0}"},
@@ -640,13 +640,13 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
   // The message indicates that such an expression was expected following the
   // characters '/' or '//', but was not found.
   { ER_EXPECTED_REL_LOC_PATH,
-      "En relativ s\u00F6kv\u00E4g f\u00F6rv\u00E4ntades efter tecknet '/' eller '//'."},
+      "En relativ s\u00F6kv\u00E4g f\u00F6rv\u00E4ntades efter token '/' eller '//'."},
 
   // Note to translators:  A location path is a form of XPath expression.
   // The message indicates that syntactically such an expression was expected,but
   // the characters specified by the substitution text were encountered instead.
   { ER_EXPECTED_LOC_PATH,
-       "En s\u00F6kv\u00E4g f\u00F6rv\u00E4ntades, men f\u00F6ljande tecken p\u00E5tr\u00E4ffades: {0}"},
+       "En s\u00F6kv\u00E4g f\u00F6rv\u00E4ntades, men f\u00F6ljande token p\u00E5tr\u00E4ffades: {0}"},
 
   // Note to translators:  A location path is a form of XPath expression.
   // The message indicates that syntactically such a subexpression was expected,
@@ -658,7 +658,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
   // The message indicates that syntactically such an expression was expected
   // following the specified characters.
   { ER_EXPECTED_LOC_STEP,
-       "Ett platssteg f\u00F6rv\u00E4ntades efter tecknet '/' eller '//'."},
+       "Ett platssteg f\u00F6rv\u00E4ntades efter token '/' eller '//'."},
 
   // Note to translators:  A node test is part of an XPath expression that is
   // used to test for particular kinds of nodes.  In this case, a node test that
@@ -825,7 +825,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
   // Warnings...
 
   { WG_LOCALE_NAME_NOT_HANDLED,
-      "spr\u00E5knamnet i funktionen format-number har \u00E4nnu inte hanterats!"},
+      "spr\u00E5kkonventionsnamnet i funktionen format-number har \u00E4nnu inte hanterats!"},
 
   { WG_PROPERTY_NOT_SUPPORTED,
       "XSL-egenskapen st\u00F6ds inte: {0}"},
@@ -843,7 +843,7 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
       "XPath beh\u00F6ver ett h\u00E4rledningsobjekt f\u00F6r att implementera nodeTest!"},
 
   { WG_FUNCTION_TOKEN_NOT_FOUND,
-      "funktionstecken hittades inte."},
+      "funktionstoken hittades inte."},
 
   { WG_COULDNOT_FIND_FUNCTION,
       "Hittade inte funktionen: {0}"},
@@ -871,8 +871,8 @@ public static final String ER_IGNORABLE_WHITESPACE_NOT_HANDLED =
   { "version", ">>>>>>> Xalan version "},
   { "version2", "<<<<<<<"},
   { "yes", "ja"},
-  { "line", "Rad #"},
-  { "column", "Kolumn #"},
+  { "line", "Rad nr"},
+  { "column", "Kolumn nr"},
   { "xsldone", "XSLProcessor: utf\u00F6rd"},
   { "xpath_option", "xpath-alternativ: "},
   { "optionIN", "   [-in inputXMLURL]"},

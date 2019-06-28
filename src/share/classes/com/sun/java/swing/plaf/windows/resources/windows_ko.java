@@ -5,9 +5,9 @@ import java.util.ListResourceBundle;
 public final class windows_ko extends ListResourceBundle {
     protected final Object[][] getContents() {
         return new Object[][] {
-            { "FileChooser.detailsViewActionLabel.textAndMnemonic", "\uC138\uBD80 \uC815\uBCF4" },
-            { "FileChooser.detailsViewButtonAccessibleName", "\uC138\uBD80 \uC815\uBCF4" },
-            { "FileChooser.detailsViewButtonToolTip.textAndMnemonic", "\uC138\uBD80 \uC815\uBCF4" },
+            { "FileChooser.detailsViewActionLabel.textAndMnemonic", "\uC138\uBD80\uC815\uBCF4" },
+            { "FileChooser.detailsViewButtonAccessibleName", "\uC138\uBD80\uC815\uBCF4" },
+            { "FileChooser.detailsViewButtonToolTip.textAndMnemonic", "\uC138\uBD80\uC815\uBCF4" },
             { "FileChooser.fileAttrHeader.textAndMnemonic", "\uC18D\uC131" },
             { "FileChooser.fileDateHeader.textAndMnemonic", "\uC218\uC815 \uB0A0\uC9DC" },
             { "FileChooser.fileNameHeader.textAndMnemonic", "\uC774\uB984" },
@@ -25,7 +25,7 @@ public final class windows_ko extends ListResourceBundle {
             { "FileChooser.newFolderAccessibleName", "\uC0C8 \uD3F4\uB354" },
             { "FileChooser.newFolderActionLabel.textAndMnemonic", "\uC0C8 \uD3F4\uB354" },
             { "FileChooser.newFolderToolTip.textAndMnemonic", "\uC0C8 \uD3F4\uB354 \uC0DD\uC131" },
-            { "FileChooser.refreshActionLabel.textAndMnemonic", "\uC0C8\uB85C \uACE0\uCE68" },
+            { "FileChooser.refreshActionLabel.textAndMnemonic", "\uC0C8\uB85C\uACE0\uCE68" },
             { "FileChooser.saveInLabel.textAndMnemonic", "\uC800\uC7A5 \uC704\uCE58:" },
             { "FileChooser.upFolderAccessibleName", "\uC704\uB85C" },
             { "FileChooser.upFolderToolTip.textAndMnemonic", "\uD55C \uB808\uBCA8 \uC704\uB85C" },

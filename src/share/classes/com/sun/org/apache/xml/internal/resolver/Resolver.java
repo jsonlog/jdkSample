@@ -1,5 +1,8 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+ */
+/*
+ * Copyright (c) 2007, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 // Resolver.java - Represents an extension of OASIS Open Catalog files.
@@ -32,11 +35,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.MalformedURLException;
 import javax.xml.parsers.SAXParserFactory;
-import com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl;
 import com.sun.org.apache.xerces.internal.utils.SecuritySupport;
 import com.sun.org.apache.xml.internal.resolver.readers.SAXCatalogReader;
 import com.sun.org.apache.xml.internal.resolver.readers.OASISXMLCatalogReader;
 import com.sun.org.apache.xml.internal.resolver.readers.TR9401CatalogReader;
+import jdk.xml.internal.JdkXmlUtils;
 
 /**
  * An extension to OASIS Open Catalog files, this class supports
@@ -87,9 +90,7 @@ public class Resolver extends Catalog {
    * Setup readers.
    */
   public void setupReaders() {
-    SAXParserFactory spf = catalogManager.useServicesMechanism() ?
-                    SAXParserFactory.newInstance() : new SAXParserFactoryImpl();
-    spf.setNamespaceAware(true);
+    SAXParserFactory spf = JdkXmlUtils.getSAXFactory(catalogManager.overrideDefaultParser());
     spf.setValidating(false);
 
     SAXCatalogReader saxReader = new SAXCatalogReader(spf);

@@ -1,5 +1,8 @@
 /*
- * Copyright (c) 2007, 2015, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, Oracle and/or its affiliates. All rights reserved.
+ */
+/*
+ * Copyright (c) 2007, 2018, Oracle and/or its affiliates. All rights reserved.
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  */
 // ResolvingXMLReader.java - An XMLReader that performs catalog resolution
@@ -27,8 +30,8 @@ import org.xml.sax.*;
 
 import javax.xml.parsers.*;
 
-import com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl;
 import com.sun.org.apache.xml.internal.resolver.*;
+import jdk.xml.internal.JdkXmlUtils;
 
 /**
  * A SAX XMLReader that performs catalog-based entity resolution.
@@ -62,9 +65,7 @@ public class ResolvingXMLReader extends ResolvingXMLFilter {
    */
   public ResolvingXMLReader() {
     super();
-    SAXParserFactory spf = catalogManager.useServicesMechanism() ?
-                    SAXParserFactory.newInstance() : new SAXParserFactoryImpl();
-    spf.setNamespaceAware(namespaceAware);
+    SAXParserFactory spf = JdkXmlUtils.getSAXFactory(catalogManager.overrideDefaultParser());
     spf.setValidating(validating);
     try {
       SAXParser parser = spf.newSAXParser();
@@ -83,9 +84,7 @@ public class ResolvingXMLReader extends ResolvingXMLFilter {
    */
   public ResolvingXMLReader(CatalogManager manager) {
     super(manager);
-    SAXParserFactory spf = catalogManager.useServicesMechanism() ?
-                    SAXParserFactory.newInstance() : new SAXParserFactoryImpl();
-    spf.setNamespaceAware(namespaceAware);
+    SAXParserFactory spf = JdkXmlUtils.getSAXFactory(catalogManager.overrideDefaultParser());
     spf.setValidating(validating);
     try {
       SAXParser parser = spf.newSAXParser();
