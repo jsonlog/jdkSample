@@ -13,7 +13,7 @@ public class TestThread {
     }
 
     @Test
-    public void testThread(String[] args) {
+    public void testThread() {
         Thread thread = new MyThread("myThread");
 
         System.out.println(Thread.currentThread().getName()+" call mythread.run()");

@@ -8,7 +8,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
-import test.User;
 
 /**
  * @Author jsonlog
@@ -68,14 +67,14 @@ public class TestJava {
 
     @Test
     public void testReflection() throws Exception {
-        Class<?> clazz = Class.forName("test.User");
+        Class<?> clazz = Class.forName("User");//test.
         User user = (User) clazz.newInstance();
         System.out.println("user = " + user);
     }
 
     @Test
     public void testClazz() throws Exception {
-        Class<?> clazz1 = Class.forName("test.User");
+        Class<?> clazz1 = Class.forName("User");
         Class clazz2 = User.class;
         Class clazz3 = new User().getClass();
         System.out.println("clazz1: " + clazz1);
@@ -84,9 +83,10 @@ public class TestJava {
     }
 
     @Test
+    @SuppressWarnings("all")
     public void testConstructor() throws Exception {
-        Class<?> clazz = Class.forName("test.User");
-        Constructor<?> constructor = clazz.getDeclaredConstructor(null);
+        Class<?> clazz = Class.forName("User");
+        Constructor<?> constructor = clazz.getDeclaredConstructor();//null
         Object object1 = constructor.newInstance();
         System.out.println(object1);
 
@@ -97,7 +97,7 @@ public class TestJava {
 
     @Test
     public void testMethod() throws Exception {
-        Class<?> clazz = Class.forName("test.User");
+        Class<?> clazz = Class.forName("User");
 
         Method[] declaredMethods = clazz.getDeclaredMethods();
         Method printInfo = clazz.getDeclaredMethod("printInfo", new Class[]{});
@@ -106,7 +106,7 @@ public class TestJava {
             if(printInfo.equals(method)){
 //            if(method.getName().equals("printInfo")){
                 User user = (User) clazz.newInstance();
-                printInfo.invoke(user, null);
+                printInfo.invoke(user);//args:null
             }
         }
         System.out.println();
@@ -114,7 +114,7 @@ public class TestJava {
 
     @Test
     public void testField() throws Exception {
-        Class<?> clazz = Class.forName("test.User");
+        Class<?> clazz = Class.forName("User");
 
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
