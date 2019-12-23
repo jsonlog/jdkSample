@@ -1,0 +1,68 @@
+
+apply plugin: 'java'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+version = '1.0'
+
+apply plugin: 'application'
+// mainClassName = 'com.util.hello'
+// mainClassName = 'ui.test' //game
+//public static void main(String[] args) {System.out.println("\n");}
+//mkdir -p src/main/{java,resources,webapp} src/test/{java,resource}
+
+// jar {
+//     manifest {
+//         attributes 'Main-Class': 'com.util.hello'
+//     }
+// }
+sourceSets{
+   test{
+//        if (isDebug.toBoolean()) {
+//            manifest.srcFile 'src/main/debug/AndroidManifest.xml'
+//        } else {
+//            manifest.srcFile 'src/main/release/AndroidManifest.xml'
+//        }
+       java{
+           srcDir 'test'
+//            exclude '/src/java/**'  // 不想包含文件的路径
+       }
+    //    resources{
+    //        srcDir 'src/resources'
+    //    }
+    //    sourceSets.all{set ->
+    //        println "${set.name}的文件是 ${set.java.srcDirs}"
+    //    }
+   }
+}
+
+//android {
+//    sourceSets {
+//        main {
+//            manifest.srcFile 'AndroidManifest.xml'
+//            java.srcDirs = ['src']
+//            resources.srcDirs = ['src']
+//            aidl.srcDirs = ['src']
+//            renderscript.srcDirs = ['src']
+//            res.srcDirs = ['res']
+//            assets.srcDirs = ['assets']
+//            jniLibs.srcDirs = ['libs']
+//        }
+//
+//    }
+//}
+
+// In this section you declare where to find the dependencies of your project
+ repositories {
+//     // Use 'jcenter' for resolving your dependencies.
+//     // You can declare any Maven/Ivy/file repository here.
+//     jcenter()
+      mavenCentral()
+ }
+
+ dependencies {
+//     compile 'javax.servlet:javax.servlet-api:+' //3.1.0
+//     // compile 'javax.servlet:jstl:1.1.2'
+        compile 'junit:junit:4.12'
+ }
+
