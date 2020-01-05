@@ -1,4 +1,4 @@
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 public class TestThread {
     public static class MyThread extends Thread {

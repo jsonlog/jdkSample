@@ -7,13 +7,31 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
+
+//import org.junit.Test;
 
 /**
  * @Author jsonlog
  * @Date 2019-12-09
  */
 public class TestJava {
+    /*
+    The test fixture is everything we need to have in place to exercise the SUT:
+    @beforeSuite （测试套件执行前执行一次，可以包括N个Java包，N个java类）
+    @beforeTest （介于测试套件suite和测试类之间的级别）
+    @beforeClass （测试类中的所有方法执行之前执行一次）
+    @beforeMethod （测试类中每个测试方法执行之前执行一次）
+    @Test(groups ="fast",dependsOnGroups="pass") （测试类）
+    @afterMethod（测试类中每个测试方法执行后执行一次）
+    @afterClass （测试类中所有方法执行后执行一次）
+    @afterTest （同beforTest）
+    @afterSuite （测试套件执行后执行一次，同beforeSuite）
+    @Listeners 定义一个测试类的监听器。
+    @Parameters 介绍如何将参数传递给@Test方法。
+    @BeforeGroups	在调用属于该组的所有测试方法之前运行。
+    @AfterGroups	在调用属于该组的所有测试方法之后运行。
+     */
     //javaFX
     @Test
     public void testThrowable() {

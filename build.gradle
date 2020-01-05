@@ -53,16 +53,42 @@ sourceSets{
 //}
 
 // In this section you declare where to find the dependencies of your project
- repositories {
+repositories {
 //     // Use 'jcenter' for resolving your dependencies.
 //     // You can declare any Maven/Ivy/file repository here.
 //     jcenter()
-      mavenCentral()
- }
+  mavenCentral()
+}
 
- dependencies {
+dependencies {
 //     compile 'javax.servlet:javax.servlet-api:+' //3.1.0
 //     // compile 'javax.servlet:jstl:1.1.2'
-        compile 'junit:junit:4.12'
- }
+//        compile 'junit:junit:4.12'
+        implementation 'org.testng:testng:7.1.0'
+//    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+test {//task :clean test
+    useTestNG()
+//    reports.html.enabled =false
+//    includeGroups 'slow'
+}
+/*
+   JUnit libraries(junit.jar and junit-4.11.jar):<IntelliJ IDEA directory>\lib.
+   TestNG library(testng-jdk15.jar):<IntelliJ IDEA directory>\plugins\testng\lib.
+   具体操作包括：
+   方式一：
+   1、选择“文件”->"project structuor"
+   2、选择Modules,选择“Dependencies”
+   3、选择“Module source”,选择“+”号
+   4、选择jar包，ok即可。
+   方式二：
+   1、选择“文件”->"project structuor"
+   2、选择"Modules",选择“Dependencies”，删除所以的jar,选择“-”
+   3、选择“Libraries”,选择“+”，选择java,选择project名称，例如test
+   4、加载进来之后，选择右边的的class和souce等全部通过“-”删除掉；
+   5、选择“+”，找到testNG的jar包位置，ok
+   6、选择"Modules",查看“Dependencies”中有test工程名称，选择test之后，选择“+”->"Libray..."
+   7、新页面选择“New Libray..”，选择test工程下面的libray；
+   8、新页面选择classes和sources，ok即可。
 
+ */
