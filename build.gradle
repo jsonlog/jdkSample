@@ -1,13 +1,16 @@
 
 apply plugin: 'java'
+apply plugin: 'maven'
 
 sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
+group 'test'
+//artifactId dir
 version = '1.0'
 
 apply plugin: 'application'
-// mainClassName = 'com.util.hello'
-// mainClassName = 'ui.test' //game
+mainClassName = 'TestJava'
+
 //public static void main(String[] args) {System.out.println("\n");}
 //mkdir -p src/main/{java,resources,webapp} src/test/{java,resource}
 
@@ -17,6 +20,7 @@ apply plugin: 'application'
 //     }
 // }
 sourceSets{
+//    main{
    test{
 //        if (isDebug.toBoolean()) {
 //            manifest.srcFile 'src/main/debug/AndroidManifest.xml'
@@ -57,22 +61,44 @@ repositories {
 //     // Use 'jcenter' for resolving your dependencies.
 //     // You can declare any Maven/Ivy/file repository here.
 //     jcenter()
-  mavenCentral()
+//    mavenLocal()
+    mavenCentral()
 }
+//tasks.withType(JavaCompile) {
+//    options.encoding = "UTF-8"
+//}
+
+def JAVAHOME = System.getenv("JAVA_HOME")
 
 dependencies {
-//     compile 'javax.servlet:javax.servlet-api:+' //3.1.0
-//     // compile 'javax.servlet:jstl:1.1.2'
-//        compile 'junit:junit:4.12'
-        implementation 'org.testng:testng:7.1.0'
+    compile files("$JAVAHOME/lib/tools.jar")
+    compile files("$JAVAHOME/jre/lib/rt.jar")
+    compile files("$JAVAHOME/jre/lib/jce.jar")
+    implementation 'org.testng:testng:7.1.0'
+
+//    compile 'junit:junit:4.12'
 //    testCompile group: 'junit', name: 'junit', version: '4.+'
+
+//    compile 'javax.servlet:javax.servlet-api:+' //3.1.0
+//    compile 'javax.servlet:jstl:1.1.2'
 }
 test {//task :clean test
     useTestNG()
 //    reports.html.enabled =false
 //    includeGroups 'slow'
 }
+task convert2Maven {
+    doLast {
+        file("$buildDir/poms/pom-default.xml").renameTo(file("$project.projectDir/pom.xml"))//rootDir
+    }
+}
+install.dependsOn(convert2Maven)
 /*
+        <compilerArguments>
+            <verbose />
+            <bootclasspath>${JAVA_HOME}/jre/lib/rt.jar${path.separator}${JAVA_HOME}/jre/lib/jce.jar</bootclasspath>
+        </compilerArguments>
+
    JUnit libraries(junit.jar and junit-4.11.jar):<IntelliJ IDEA directory>\lib.
    TestNG library(testng-jdk15.jar):<IntelliJ IDEA directory>\plugins\testng\lib.
    具体操作包括：
