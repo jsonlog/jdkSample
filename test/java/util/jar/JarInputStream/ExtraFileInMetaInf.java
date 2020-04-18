@@ -50,8 +50,8 @@ public class ExtraFileInMetaInf {
         sun.security.tools.keytool.Main.main(
                 ("-keystore ks -storepass changeit -keypass changeit " +
                         "-keyalg rsa -alias a -dname CN=A -genkeypair").split(" "));
-        sun.security.tools.jarsigner.Main.main(
-                "-keystore ks -storepass changeit x.jar a".split(" "));
+//        sun.security.tools.jarsigner.Main.main(
+//                "-keystore ks -storepass changeit x.jar a".split(" "));
 
         // Check if the entries are signed
         try (JarInputStream jis =
