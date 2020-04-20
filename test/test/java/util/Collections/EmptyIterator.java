@@ -54,10 +54,10 @@ public class EmptyIterator {
             Collections.emptyEnumeration();
         testEmptyEnumeration(finalEmptyAbstract);
 
-        @SuppressWarnings("unchecked") Iterator<?> x =
-            new sun.tools.java.MethodSet()
-            .lookupName(sun.tools.java.Identifier.lookup(""));
-        testEmptyIterator(x);
+//        @SuppressWarnings("unchecked") Iterator<?> x =
+//            new sun.tools.java.MethodSet()
+//            .lookupName(sun.tools.java.Identifier.lookup(""));
+//        testEmptyIterator(x);
     }
 
     <T> void testEmptyEnumeration(final Enumeration<T> e) {
