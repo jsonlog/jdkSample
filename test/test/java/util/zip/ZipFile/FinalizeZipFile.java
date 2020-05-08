@@ -43,11 +43,11 @@ public class FinalizeZipFile {
             super(f);
             System.out.printf("Using %s%n", f.getPath());
         }
-        protected void finalize() throws IOException {
-            System.out.printf("Killing %s%n", getName());
-            super.finalize();
-            finalizersDone.countDown();
-        }
+//        protected void finalize() throws IOException {
+//            System.out.printf("Killing %s%n", getName());
+//            super.finalize();
+//            finalizersDone.countDown();
+//        }
     }
 
     private static void makeGarbage() throws Throwable {

@@ -45,13 +45,13 @@ public class FinalizeShdCallClose {
             super(name);
         }
 
-        public void finalize() {
-            try {
-                super.finalize();
-            } catch (IOException ioe) {
-                ioe.printStackTrace();
-            }
-        }
+//        public void finalize() {
+//            try {
+//                super.finalize();
+//            } catch (IOException ioe) {
+//                ioe.printStackTrace();
+//            }
+//        }
 
         public void close() {
             try {
@@ -82,7 +82,7 @@ public class FinalizeShdCallClose {
             System.out.println("Unexpected exception " + e);
             throw(e);
         }
-        ms.finalize();
+//        ms.finalize();
         if (!ms.isClosed()) {
             throw new Exception("MyStream.close() method is not called");
         }
